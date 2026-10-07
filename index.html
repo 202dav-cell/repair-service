@@ -2136,6 +2136,18 @@ async function loadClients() {
     }
 
     console.log('Клиенты загружены:', data);
+
+    const clientsList = document.getElementById('clientsList');
+
+    if (clientsList) {
+        clientsList.innerHTML = '';
+
+        data.forEach(client => {
+            const option = document.createElement('option');
+            option.value = client.full_name;
+            clientsList.appendChild(option);
+        });
+    }
 }
 
 checkSession();
