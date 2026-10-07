@@ -76,7 +76,6 @@ function renderEmployees() {
         html += '<td>' + escapeHtml(employee.social_networks || '—') + '</td>';
         html += '<td><span class="role-badge role-' + escapeHtml(role) + '">' +
             escapeHtml(roleLabels[role] || role || 'Не назначен') + '</span></td>';
-        html += '<td><button type="button" class="employee-open-button">Открыть</button></td>';
         html += '</tr>';
     });
 
