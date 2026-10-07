@@ -66,7 +66,7 @@ function renderEmployees() {
     }
 
     let html = '<div class="table-wrapper"><table class="employees-table"><thead><tr>';
-    html += '<th>Сотрудник</th><th>Соц. сети</th><th>Уровень доступа</th><th>Действие</th></tr></thead><tbody>';
+    html += '<th>Сотрудник</th><th>Соц. сети</th><th>Уровень доступа</th></tr></thead><tbody>';
 
     employees.forEach(employee => {
         const role = String(employee.role || '');
@@ -292,9 +292,8 @@ employeeDetailsForm.addEventListener('submit', async function(event) {
         employeeDetailsMessage.textContent = 'Данные сотрудника сохранены.';
         employeeDetailsMessage.style.display = 'block';
 
-        setEmployeeDetailsMode(false);
         document.getElementById('employeeDetailsPasswordInput').value = '';
-
+        closeEmployeeDetails();
         await loadEmployees();
     } catch (error) {
         console.error(error);
