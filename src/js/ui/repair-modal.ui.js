@@ -33,36 +33,40 @@ newRepairForm.addEventListener('submit', async function(event) {
 
         const clientName = document.getElementById('clientName').value.trim();
         const clientPhone = document.getElementById('clientPhone').value.trim();
+        const socialNetworks = document.getElementById('socialNetworks').value.trim();
         const equipmentName = document.getElementById('equipmentName').value.trim();
         const brand = document.getElementById('brand').value.trim();
         const model = document.getElementById('model').value.trim();
         const serialNumber = document.getElementById('serialNumber').value.trim();
         const customerProblem = document.getElementById('customerProblem').value.trim();
 
-        let client;
-        const { data: existingClient, error: findClientError } = await findClientByName(clientName);
-        if (findClientError) throw new Error('Ошибка поиска клиента: ' + findClientError.message);
+        let client = null;
 
-        if (existingClient) {
-            client = existingClient;
-        } else {
-            const { data: newClient, error: clientError } = await createClient(clientName, clientPhone);
-            if (clientError) throw new Error('Ошибка создания клиента: ' + clientError.message);
-            client = newClient;
+        if (clientName) {
+            const { data: existingClient, error: findClientError } = await findClientByName(clientName);
+            if (findClientError) throw new Error('Ошибка поиска клиента: ' + findClientError.message);
+
+            if (existingClient) {
+                client = existingClient;
+            } else {
+                const { data: newClient, error: clientError } = await createClient(clientName, clientPhone, socialNetworks);
+                if (clientError) throw new Error('Ошибка создания клиента: ' + clientError.message);
+                client = newClient;
+            }
         }
 
         const { data: repair, error: repairError } = await createRepair({
-            client_id: client.id,
-            equipment_name: equipmentName,
+            client_id: client?.id || null,
+            equipment_name: equipmentName || null,
             brand: brand || null,
             model: model || null,
             serial_number: serialNumber || null,
-            customer_problem: customerProblem,
+            customer_problem: customerProblem || null,
             status: 'NEW',
             created_by: user.id
         });
 
-        if (repairError) throw new Error('Клиент создан, но ремонт не создан: ' + repairError.message);
+        if (repairError) throw new Error('Ремонт не создан: ' + repairError.message);
 
         formMessage.className = 'form-message success-message';
         formMessage.textContent = 'Ремонт №' + formatRepairNumber(repair.repair_number) + ' успешно создан.';
