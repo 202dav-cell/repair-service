@@ -1,0 +1,7 @@
+project_id = "xuhpdymilkoksowgefhr"
+
+[functions.create-employee]
+verify_jwt = true
+
+[functions.update-employee-role]
+verify_jwt = true
