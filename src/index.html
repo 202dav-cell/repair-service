@@ -21,41 +21,6 @@
             <div id="loginError" class="error"></div>
         </form>
     </div>
-</div>
-<div id="app">
-    <div class="topbar">
-        <div class="logo">🔧 DAV Service</div>
-        <div class="topbar-actions">
-            <span id="userInfo" class="user-info">Загрузка...</span>
-            <button id="employeesButton" class="topbar-button" style="display:none;">👥 Сотрудники</button>
-            <button id="logoutButton" class="logout-button">Выйти</button>
-        </div>
-    </div>
-    <div id="repairsPage" class="container">
-        <div class="counters">
-            <div class="counter"><div class="counter-title">Новые</div><div id="counterNew" class="counter-value">0</div></div>
-            <div class="counter"><div class="counter-title">В ремонте</div><div id="counterRepair" class="counter-value">0</div></div>
-            <div class="counter overdue"><div class="counter-title">Просрочено</div><div id="counterOverdue" class="counter-value">0</div></div>
-            <div class="counter"><div class="counter-title">К выдаче</div><div id="counterReady" class="counter-value">0</div></div>
-        </div>
-        <div class="tabs">
-            <button class="tab active" data-tab="NEW">Новые</button>
-            <button class="tab" data-tab="IN_REPAIR">В ремонте</button>
-            <button class="tab" data-tab="OVERDUE">🔴 Просрочено</button>
-            <button class="tab" data-tab="READY">К выдаче</button>
-            <button class="tab" data-tab="ARCHIVE">Архив</button>
-        </div>
-        <div class="content-box">
-            <div class="content-header">
-                <h2 id="pageTitle">Новые ремонты</h2>
-                <div class="header-buttons">
-                    <button id="newRepairButton" class="new-repair-button">+ Новый ремонт</button>
-                    <button id="refreshButton" class="refresh-button">🔄 Обновить</button>
-                </div>
-            </div>
-            <div id="tableContainer" class="loading">Загрузка...</div>
-        </div>
-    </div>
 <div id="employeesPage" class="container page-hidden">
     <div class="content-box">
         <div class="content-header">
@@ -75,6 +40,8 @@
     </div>
 </div>
 </div>
+</div>
+
 <div id="employeeModal" class="modal-overlay">
     <div class="modal employee-modal">
         <div class="modal-header">
