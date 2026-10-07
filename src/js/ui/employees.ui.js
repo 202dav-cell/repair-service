@@ -7,23 +7,20 @@ let allEmployees = [];
 
 const roleLabels = {
     ADMIN: 'Администратор',
-    admin: 'Администратор',
-    REPAIRMAN: 'Ремонтник',
-    repairman: 'Ремонтник',
-    RECEPTION: 'Ресепшн',
-    reception: 'Ресепшн'
+    master: 'Мастер',
+    reception: 'Приёмщик'
 };
 
 function isAdmin() {
     return currentUserProfile && String(currentUserProfile.role || '').toUpperCase() === 'ADMIN';
 }
 
-async function openEmployeesPage() {
+function openEmployeesPage() {
     if (!isAdmin()) return;
     document.getElementById('repairsPage').style.display = 'none';
     document.getElementById('employeesPage').classList.remove('page-hidden');
     document.getElementById('pageTitle').textContent = 'Сотрудники';
-    await loadEmployees();
+    loadEmployees();
 }
 
 function closeEmployeesPage() {
@@ -48,7 +45,7 @@ function renderEmployees() {
     const query = (employeeSearch.value || '').trim().toLowerCase();
     const employees = allEmployees.filter(employee =>
         (employee.full_name || '').toLowerCase().includes(query) ||
-        (employee.role || '').toLowerCase().includes(query)
+        String(roleLabels[employee.role] || employee.role || '').toLowerCase().includes(query)
     );
 
     if (!employees.length) {
@@ -59,12 +56,13 @@ function renderEmployees() {
     let html = '<div class="table-wrapper"><table class="employees-table"><thead><tr>';
     html += '<th>Сотрудник</th><th>Уровень доступа</th><th>Изменить доступ</th></tr></thead><tbody>';
     employees.forEach(employee => {
+        const role = String(employee.role || '');
         html += '<tr>';
         html += '<td><strong>' + escapeHtml(employee.full_name || 'Без имени') + '</strong></td>';
-        html += '<td><span class="role-badge role-' + escapeHtml(employee.role || 'none') + '">' + escapeHtml(roleLabels[employee.role] || employee.role || 'Не назначен') + '</span></td>';
+        html += '<td><span class="role-badge role-' + escapeHtml(role) + '">' + escapeHtml(roleLabels[role] || role || 'Не назначен') + '</span></td>';
         html += '<td><select class="employee-role-select" data-user-id="' + escapeHtml(employee.id) + '">';
         Object.entries(roleLabels).forEach(([value, label]) => {
-            html += '<option value="' + value + '"' + (employee.role === value ? ' selected' : '') + '>' + label + '</option>';
+            html += '<option value="' + value + '"' + (role === value ? ' selected' : '') + '>' + label + '</option>';
         });
         html += '</select></td></tr>';
     });
@@ -91,7 +89,7 @@ function renderEmployees() {
 function openEmployeeModal() {
     if (!isAdmin()) return;
     employeeForm.reset();
-    document.getElementById('employeeRole').value = 'RECEPTION';
+    document.getElementById('employeeRole').value = 'reception';
     employeeFormMessage.style.display = 'none';
     employeeFormMessage.textContent = '';
     employeeModal.style.display = 'block';
@@ -129,10 +127,10 @@ employeeForm.addEventListener('submit', async function(event) {
         if (error) throw new Error(error.message);
 
         employeeFormMessage.className = 'form-message success-message';
-        employeeFormMessage.textContent = 'Сотрудник создан. Если подтверждение email включено в Supabase, сотруднику потребуется подтвердить email.';
+        employeeFormMessage.textContent = 'Сотрудник создан.';
         employeeFormMessage.style.display = 'block';
         await loadEmployees();
-        setTimeout(closeEmployeeModal, 1600);
+        setTimeout(closeEmployeeModal, 1200);
     } catch (error) {
         console.error(error);
         employeeFormMessage.className = 'form-message error-message';
