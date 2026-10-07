@@ -584,3 +584,24 @@
         margin-right: 0;
     }
 }
+
+
+/* =========================
+   EMPLOYEE DETAILS / EDIT
+========================= */
+.employee-row { cursor: pointer; }
+.employee-row td { transition: background 0.15s ease; }
+.employee-row:hover td { background: #eef6ff; }
+.employee-open-button { background: #f3f4f6; color: #374151; padding: 8px 12px; }
+.employee-open-button:hover { background: #e5e7eb; }
+.employee-details-modal { max-width: 650px; }
+.employee-details-actions { justify-content: space-between; }
+.employee-details-actions-left, .employee-details-actions-right { display: flex; gap: 10px; align-items: center; }
+.edit-button { background: #2563eb; color: white; }
+.edit-button:hover { background: #1d4ed8; }
+.employee-details-password { display: none; }
+@media (max-width: 600px) {
+  .employee-details-actions { flex-direction: column-reverse; align-items: stretch; }
+  .employee-details-actions-left, .employee-details-actions-right { width: 100%; flex-direction: column; }
+  .employee-details-actions button { width: 100%; }
+}
