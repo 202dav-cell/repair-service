@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DAV Service</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div id="loginScreen">
+    <div class="login-box">
+        <h1>🔧 DAV Service</h1>
+        <p>Вход в систему</p>
+
+        <form id="loginForm">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Введите email" required>
+
+            <label for="password">Пароль</label>
+            <input type="password" id="password" placeholder="Введите пароль" required>
+
+            <button type="submit" class="primary-button login-button">Войти</button>
+            <div id="loginError" class="error"></div>
+        </form>
+    </div>
+</div>
+
+<div id="app">
+    <div class="topbar">
+        <div class="logo">🔧 DAV Service</div>
+
+        <div class="topbar-actions">
+            <span id="userInfo" class="user-info">Загрузка...</span>
+            <button id="employeesButton" class="topbar-button" style="display:none;">👥 Сотрудники</button>
+            <button id="logoutButton" class="logout-button">Выйти</button>
+        </div>
+    </div>
+
+    <div id="repairsPage" class="container">
+
+        <div class="counters">
+            <div class="counter">
+                <div class="counter-title">Новые</div>
+                <div id="counterNew" class="counter-value">0</div>
+            </div>
+
+            <div class="counter">
+                <div class="counter-title">В ремонте</div>
+                <div id="counterRepair" class="counter-value">0</div>
+            </div>
+
+            <div class="counter overdue">
+                <div class="counter-title">Просрочено</div>
+                <div id="counterOverdue" class="counter-value">0</div>
+            </div>
+
+            <div class="counter">
+                <div class="counter-title">К выдаче</div>
+                <div id="counterReady" class="counter-value">0</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="NEW">Новые</button>
+            <button class="tab" data-tab="IN_REPAIR">В ремонте</button>
+            <button class="tab" data-tab="OVERDUE">🔴 Просрочено</button>
+            <button class="tab" data-tab="READY">К выдаче</button>
+            <button class="tab" data-tab="ARCHIVE">Архив</button>
+        </div>
+
+        <div class="content-box">
+            <div class="content-header">
+                <h2 id="pageTitle">Новые ремонты</h2>
+
+                <div class="header-buttons">
+                    <button id="newRepairButton" class="new-repair-button">+ Новый ремонт</button>
+                    <button id="refreshButton" class="refresh-button">🔄 Обновить</button>
+                </div>
+            </div>
+
+            <div id="tableContainer" class="loading">Загрузка...</div>
+        </div>
+
+    </div>
+</div>
+
+<div id="employeesPage" class="container page-hidden">
+    <div class="content-box">
+        <div class="content-header">
+            <div>
+                <h2>Сотрудники</h2>
+                <div class="page-subtitle">Управление сотрудниками и уровнями доступа</div>
+            </div>
+            <div class="header-buttons">
+                <button id="backToRepairsButton" class="refresh-button">← Ремонты</button>
+                <button id="addEmployeeButton" class="new-repair-button">+ Добавить сотрудника</button>
+            </div>
+        </div>
+        <div class="employees-toolbar">
+            <input type="search" id="employeeSearch" placeholder="Поиск по имени или email..." autocomplete="off">
+        </div>
+        <div id="employeesTableContainer" class="loading">Загрузка сотрудников...</div>
+    </div>
+</div>
+
+<div id="employeeModal" class="modal-overlay"> 
+    <div class="modal employee-modal">
+        <div class="modal-header">
+            <h2>Новый сотрудник</h2>
+            <button id="closeEmployeeModalButton" class="close-button">×</button>
+        </div>
+        <div class="modal-body">
+            <div id="employeeFormMessage" class="form-message"></div>
+            <form id="employeeForm">
+                <div class="form-section">
+                    <h3>👤 Данные сотрудника</h3>
+                    <label for="employeeName">ФИО *</label>
+                    <input type="text" id="employeeName" placeholder="Например: Иван Иванов" required>
+                    <label for="employeeEmail">Email *</label>
+                    <input type="email" id="employeeEmail" placeholder="employee@example.com" required>
+                    <label for="employeePassword">Временный пароль *</label>
+                    <input type="password" id="employeePassword" minlength="6" placeholder="Минимум 6 символов" required>
+                    <label for="employeeRole">Уровень доступа *</label>
+                    <select id="employeeRole" required>
+                        <option value="ADMIN">Администратор</option>
+                        <option value="REPAIRMAN">Ремонтник</option>
+                        <option value="RECEPTION">Ресепшн</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancelEmployeeModalButton" class="cancel-button">Отмена</button>
+                    <button type="submit" id="saveEmployeeButton" class="save-button">Создать сотрудника</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="newRepairModal" class="modal-overlay">
+    <div class="modal">
+
+        <div class="modal-header">
+            <h2>Новый ремонт</h2>
+            <button id="closeModalButton" class="close-button">×</button>
+        </div>
+
+        <div class="modal-body">
+
+            <div id="formMessage" class="form-message"></div>
+
+            <form id="newRepairForm">
+
+                <div class="form-section">
+                    <h3>👤 Клиент</h3>
+
+                    <div class="form-row">
+                        <div>
+                            <label for="clientName">ФИО клиента *</label>
+                            <input type="text" id="clientName" placeholder="Начните вводить ФИО..." list="clientsList" required>
+                        </div>
+
+                        <div>
+                            <label for="clientPhone">Телефон *</label>
+                            <input type="tel" id="clientPhone" placeholder="+375..." required>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-section">
+                    <h3>🔧 Оборудование</h3>
+
+                    <div class="form-row">
+                        <div>
+                            <label for="equipmentName">Оборудование *</label>
+                            <input type="text" id="equipmentName" placeholder="Например: ноутбук" required>
+                        </div>
+
+                        <div>
+                            <label for="brand">Бренд / производитель</label>
+                            <input type="text" id="brand" placeholder="Например: Lenovo">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div>
+                            <label for="model">Модель</label>
+                            <input type="text" id="model" placeholder="Например: ThinkPad T14">
+                        </div>
+
+                        <div>
+                            <label for="serialNumber">Серийный номер</label>
+                            <input type="text" id="serialNumber" placeholder="S/N">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>⚠️ Проблема</h3>
+
+                    <label for="customerProblem">Что сообщил клиент *</label>
+                    <textarea id="customerProblem" placeholder="Опишите проблему со слов клиента..." required></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="cancelModalButton" class="cancel-button">Отмена</button>
+                    <button type="submit" id="saveRepairButton" class="save-button">Сохранить ремонт</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<datalist id="clientsList"></datalist>
+
+</body>
+</html>
