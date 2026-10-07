@@ -46,6 +46,7 @@ Deno.serve(async (req) => {
     const email = String(body.email || "").trim().toLowerCase();
     const password = String(body.password || "");
     const socialNetworks = String(body.social_networks || "").trim();
+    const phone = String(body.phone || "").trim();
     const requestedRole = String(body.role || "").trim();
 
     const roleMap: Record<string, string> = {
@@ -77,9 +78,10 @@ Deno.serve(async (req) => {
         id: created.user.id,
         full_name: fullName,
         role,
-        social_networks: socialNetworks || null
+        social_networks: socialNetworks || null,
+        phone: phone || null
       })
-      .select("id, full_name, role, social_networks")
+      .select("id, full_name, role, social_networks, phone")
       .single();
 
     if (insertError) {
