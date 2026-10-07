@@ -9,3 +9,5 @@ const loginError = document.getElementById('loginError');
 const newRepairModal = document.getElementById('newRepairModal');
 const newRepairForm = document.getElementById('newRepairForm');
 const formMessage = document.getElementById('formMessage');
+
+let currentUserProfile = null;
