@@ -66,10 +66,7 @@ async function callEmployeeFunction(action, body) {
 }
 
 async function getEmployees() {
-    return supabaseClient
-        .from('profiles')
-        .select('id, full_name, role, social_networks')
-        .order('full_name');
+    return callEmployeeFunction('list', {});
 }
 
 async function getEmployeeDetails(userId) {
