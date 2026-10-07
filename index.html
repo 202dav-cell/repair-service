@@ -240,6 +240,63 @@
                 display: none;
             }
         }
+
+        .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.55);
+    overflow-y: auto;
+    padding: 30px 15px;
+}
+
+.modal-content {
+    max-width: 650px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    margin: 0;
+}
+
+.close-modal {
+    width: auto;
+    background: transparent;
+    color: #374151;
+    font-size: 30px;
+    padding: 0 10px;
+}
+
+.modal-content h3 {
+    margin-top: 25px;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 8px;
+}
+
+.modal-content textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 16px;
+    resize: vertical;
+    margin-bottom: 18px;
+}
     </style>
 </head>
 
@@ -368,6 +425,26 @@
                 id="newRepairButton">
                 + Новый ремонт
             </button>
+
+ <button
+                type="submit"
+                class="primary">
+                Принять в ремонт
+            </button>
+
+            <div
+                id="repairMessage"
+                class="message">
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+            
 
         </div>
 
