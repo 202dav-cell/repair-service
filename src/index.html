@@ -109,6 +109,82 @@
         </div>
     </div>
 </div>
+
+<div id="employeeDetailsModal" class="modal-overlay">
+    <div class="modal employee-details-modal">
+        <div class="modal-header">
+            <h2>Сотрудник</h2>
+            <button id="closeEmployeeDetailsButton" class="close-button">×</button>
+        </div>
+        <div class="modal-body">
+            <div id="employeeDetailsMessage" class="form-message"></div>
+
+            <form id="employeeDetailsForm">
+                <div class="form-section">
+                    <h3>👤 Данные сотрудника</h3>
+
+                    <label for="employeeDetailsName">ФИО</label>
+                    <input type="text" id="employeeDetailsName">
+
+                    <label for="employeeDetailsEmail">Email</label>
+                    <input type="email" id="employeeDetailsEmail">
+
+                    <label for="employeeDetailsSocialNetworks">Соц. сети</label>
+                    <input type="text" id="employeeDetailsSocialNetworks"
+                           placeholder="Telegram, VK, Instagram и т.д.">
+
+                    <label for="employeeDetailsRole">Уровень доступа</label>
+                    <select id="employeeDetailsRole">
+                        <option value="ADMIN">Администратор</option>
+                        <option value="master">Мастер</option>
+                        <option value="reception">Приёмщик</option>
+                    </select>
+
+                    <div id="employeeDetailsPassword" class="employee-details-password">
+                        <label for="employeeDetailsPasswordInput">Новый пароль</label>
+                        <input type="password"
+                               id="employeeDetailsPasswordInput"
+                               placeholder="Оставьте пустым, если менять не нужно"
+                               minlength="6">
+                    </div>
+                </div>
+
+                <div class="form-actions employee-details-actions">
+                    <div class="employee-details-actions-left">
+                        <button type="button"
+                                id="employeeDetailsEditButton"
+                                class="edit-button">
+                            ✏️ Редактировать
+                        </button>
+
+                        <button type="button"
+                                id="employeeDetailsCancelEditButton"
+                                class="cancel-button"
+                                style="display:none;">
+                            Отмена
+                        </button>
+                    </div>
+
+                    <div class="employee-details-actions-right">
+                        <button type="button"
+                                id="closeEmployeeDetailsButtonBottom"
+                                class="cancel-button">
+                            Закрыть
+                        </button>
+
+                        <button type="submit"
+                                id="employeeDetailsSaveButton"
+                                class="save-button"
+                                style="display:none;">
+                            Сохранить
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div id="newRepairModal" class="modal-overlay">
     <div class="modal">
         <div class="modal-header">
