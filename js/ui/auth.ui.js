@@ -15,6 +15,15 @@ loginForm.addEventListener('submit', async function(event) {
     await showApplication();
 });
 
+function getRoleLabel(role) {
+    const labels = {
+        ADMIN: 'Администратор',
+        REPAIRMAN: 'Ремонтник',
+        RECEPTION: 'Ресепшн'
+    };
+    return labels[role] || role || 'Без роли';
+}
+
 async function showApplication() {
     loginScreen.style.display = 'none';
     app.style.display = 'block';
@@ -28,9 +37,16 @@ async function loadUser() {
 
     const { data: profile, error } = await getUserProfile(user.id);
 
+    currentUserProfile = error ? { full_name: user.email, role: null } : profile;
+
     document.getElementById('userInfo').textContent = error
         ? user.email
-        : ((profile.full_name || user.email) + ' • ' + profile.role);
+        : ((profile.full_name || user.email) + ' • ' + getRoleLabel(profile.role));
+
+    const employeesButton = document.getElementById('employeesButton');
+    if (employeesButton) {
+        employeesButton.style.display = profile && profile.role === 'ADMIN' ? 'inline-block' : 'none';
+    }
 }
 
 async function checkSession() {
