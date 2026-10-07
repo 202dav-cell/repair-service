@@ -191,6 +191,7 @@ Deno.serve(async (req: Request) => {
 
     const authAttributes: Record<string, unknown> = {
       email,
+      email_confirm: true,
       user_metadata: {
         full_name: fullName,
       },
