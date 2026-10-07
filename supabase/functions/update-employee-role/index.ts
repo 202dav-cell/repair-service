@@ -294,7 +294,7 @@ Deno.serve(async (req: Request) => {
         phone: phone || null,
       })
       .eq("id", userId)
-      .select("id, full_name, role, social_networks")
+      .select("id, full_name, role, social_networks, phone")
       .single();
 
     if (profileUpdateError || !profile) {
