@@ -115,7 +115,7 @@ async function openEmployeeDetails(userId) {
         role === 'RECEPTION' ? 'reception' :
         role === 'ADMIN' ? 'ADMIN' : role;
 
-    document.getElementById('employeeDetailsPassword').value = '';
+    document.getElementById('employeeDetailsPasswordInput').value = '';
     employeeDetailsMessage.style.display = 'none';
     employeeDetailsMessage.textContent = '';
 
@@ -140,13 +140,13 @@ function setEmployeeDetailsMode(editing) {
     document.getElementById('employeeDetailsEmail').disabled = !editing;
     document.getElementById('employeeDetailsSocialNetworks').disabled = !editing;
     document.getElementById('employeeDetailsRole').disabled = !editing;
-    document.getElementById('employeeDetailsPassword').disabled = !editing;
+    document.getElementById('employeeDetailsPasswordInput').disabled = !editing;
 
     document.getElementById('employeeDetailsEditButton').style.display = editing ? 'none' : 'inline-block';
     document.getElementById('employeeDetailsSaveButton').style.display = editing ? 'inline-block' : 'none';
     document.getElementById('employeeDetailsCancelEditButton').style.display = editing ? 'inline-block' : 'none';
 
-    document.getElementById('employeeDetailsPassword').parentElement.style.display = editing ? 'block' : 'none';
+    document.getElementById('employeeDetailsPassword').style.display = editing ? 'block' : 'none';
 }
 
 function closeEmployeeDetails() {
@@ -187,6 +187,7 @@ employeeDetailsModal.addEventListener('click', event => {
 });
 
 document.getElementById('closeEmployeeDetailsButton').addEventListener('click', closeEmployeeDetails);
+document.getElementById('closeEmployeeDetailsButtonBottom').addEventListener('click', closeEmployeeDetails);
 
 document.getElementById('employeeDetailsEditButton').addEventListener('click', () => {
     setEmployeeDetailsMode(true);
@@ -205,7 +206,7 @@ document.getElementById('employeeDetailsCancelEditButton').addEventListener('cli
         role === 'RECEPTION' ? 'reception' :
         role === 'ADMIN' ? 'ADMIN' : role;
 
-    document.getElementById('employeeDetailsPassword').value = '';
+    document.getElementById('employeeDetailsPasswordInput').value = '';
     employeeDetailsMessage.style.display = 'none';
     setEmployeeDetailsMode(false);
 });
@@ -270,7 +271,7 @@ employeeDetailsForm.addEventListener('submit', async function(event) {
             user_id: selectedEmployee.id,
             full_name: document.getElementById('employeeDetailsName').value.trim(),
             email: document.getElementById('employeeDetailsEmail').value.trim(),
-            password: document.getElementById('employeeDetailsPassword').value,
+            password: document.getElementById('employeeDetailsPasswordInput').value,
             social_networks: document.getElementById('employeeDetailsSocialNetworks').value.trim(),
             role: document.getElementById('employeeDetailsRole').value
         };
@@ -289,7 +290,7 @@ employeeDetailsForm.addEventListener('submit', async function(event) {
         employeeDetailsMessage.style.display = 'block';
 
         setEmployeeDetailsMode(false);
-        document.getElementById('employeeDetailsPassword').value = '';
+        document.getElementById('employeeDetailsPasswordInput').value = '';
 
         await loadEmployees();
     } catch (error) {
