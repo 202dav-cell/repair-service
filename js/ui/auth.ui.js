@@ -45,7 +45,7 @@ async function loadUser() {
 
     const employeesButton = document.getElementById('employeesButton');
     if (employeesButton) {
-        employeesButton.style.display = profile && profile.role === 'ADMIN' ? 'inline-block' : 'none';
+        employeesButton.style.display = profile && String(profile.role || '').toUpperCase() === 'ADMIN' ? 'inline-block' : 'none';
     }
 }
 
