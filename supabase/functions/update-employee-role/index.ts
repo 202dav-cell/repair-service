@@ -89,6 +89,65 @@ Deno.serve(async (req: Request) => {
       return jsonResponse({ error: "Не указан сотрудник." }, 400);
     }
 
+    if (action === "list") {
+      const {
+        data: usersData,
+        error: usersError,
+      } = await adminClient.auth.admin.listUsers({
+        page: 1,
+        perPage: 1000,
+      });
+
+      if (usersError) {
+        return jsonResponse(
+          { error: usersError.message || "Не удалось получить список сотрудников." },
+          400
+        );
+      }
+
+      const {
+        data: profiles,
+        error: profilesError,
+      } = await adminClient
+        .from("profiles")
+        .select("id, full_name, role, social_networks")
+        .order("full_name");
+
+      if (profilesError) {
+        return jsonResponse(
+          { error: profilesError.message || "Не удалось получить профили сотрудников." },
+          400
+        );
+      }
+
+      const profileMap = new Map(
+        (profiles || []).map((profile) => [profile.id, profile])
+      );
+
+      const data = (usersData.users || [])
+        .map((user) => {
+          const profile = profileMap.get(user.id);
+          if (!profile) return null;
+
+          return {
+            id: profile.id,
+            full_name: profile.full_name || user.user_metadata?.full_name || "",
+            role: profile.role,
+            social_networks: profile.social_networks || "",
+            email: user.email || "",
+          };
+        })
+        .filter(Boolean)
+        .sort((a, b) =>
+          String(a.full_name || "").localeCompare(
+            String(b.full_name || ""),
+            "ru"
+          )
+        );
+
+      return jsonResponse({ data });
+    }
+
     if (action === "get") {
       const {
         data: authResult,
