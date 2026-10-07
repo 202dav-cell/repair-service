@@ -3,6 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
 const json = (body: unknown, status = 200) =>
@@ -44,17 +45,13 @@ Deno.serve(async (req) => {
     const fullName = String(body.full_name || "").trim();
     const email = String(body.email || "").trim().toLowerCase();
     const password = String(body.password || "");
+    const socialNetworks = String(body.social_networks || "").trim();
     const requestedRole = String(body.role || "").trim();
 
     const roleMap: Record<string, string> = {
-      ADMIN: "ADMIN",
-      admin: "ADMIN",
-      master: "master",
-      MASTER: "master",
-      repairman: "master",
-      REPAIRMAN: "master",
-      reception: "reception",
-      RECEPTION: "reception"
+      ADMIN: "ADMIN", admin: "ADMIN",
+      master: "master", MASTER: "master", repairman: "master", REPAIRMAN: "master",
+      reception: "reception", RECEPTION: "reception"
     };
 
     const role = roleMap[requestedRole] || "";
@@ -76,8 +73,13 @@ Deno.serve(async (req) => {
 
     const { data: profile, error: insertError } = await adminClient
       .from("profiles")
-      .insert({ id: created.user.id, full_name: fullName, role })
-      .select("id, full_name, role")
+      .insert({
+        id: created.user.id,
+        full_name: fullName,
+        role,
+        social_networks: socialNetworks || null
+      })
+      .select("id, full_name, role, social_networks")
       .single();
 
     if (insertError) {
