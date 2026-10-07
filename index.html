@@ -1823,36 +1823,55 @@ newRepairForm.addEventListener(
                 ).value.trim();
 
 
-            /* =========================
-               CREATE CLIENT
-            ========================= */
+/* =========================
+   FIND OR CREATE CLIENT
+========================= */
 
-            const {
-                data: client,
-                error: clientError
-            } =
-            await supabaseClient
-                .from('clients')
-                .insert({
+let client;
 
-                    full_name: clientName,
+const {
+    data: existingClient,
+    error: findClientError
+} = await supabaseClient
+    .from('clients')
+    .select('*')
+    .eq('full_name', clientName)
+    .maybeSingle();
 
-                    phone: clientPhone
+if (findClientError) {
+    throw new Error(
+        'Ошибка поиска клиента: ' +
+        findClientError.message
+    );
+}
 
-                })
-                .select()
-                .single();
+if (existingClient) {
 
+    client = existingClient;
 
-            if (clientError) {
+} else {
 
-                throw new Error(
-                    'Ошибка создания клиента: '
-                    +
-                    clientError.message
-                );
+    const {
+        data: newClient,
+        error: clientError
+    } = await supabaseClient
+        .from('clients')
+        .insert({
+            full_name: clientName,
+            phone: clientPhone
+        })
+        .select()
+        .single();
 
-            }
+    if (clientError) {
+        throw new Error(
+            'Ошибка создания клиента: ' +
+            clientError.message
+        );
+    }
+
+    client = newClient;
+}
 
 
             /* =========================
