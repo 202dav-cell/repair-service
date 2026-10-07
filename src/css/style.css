@@ -1,0 +1,586 @@
+* {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            color: #222;
+        }
+
+        /* =========================
+           LOGIN
+        ========================= */
+
+        #loginScreen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+        }
+
+        .login-box h1 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .login-box p {
+            text-align: center;
+            color: #777;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            margin-top: 7px;
+            margin-bottom: 15px;
+            font-family: Arial, sans-serif;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 12px 18px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .primary-button {
+            background: #2563eb;
+            color: white;
+        }
+
+        .primary-button:hover {
+            background: #1d4ed8;
+        }
+
+        .login-button {
+            width: 100%;
+        }
+
+        .error {
+            color: #dc2626;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* =========================
+           APP
+        ========================= */
+
+        #app {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            background: #111827;
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .user-info {
+            font-size: 13px;
+            color: #d1d5db;
+            margin-right: 15px;
+        }
+
+        .logout-button {
+            background: #374151;
+            color: white;
+        }
+
+        .logout-button:hover {
+            background: #4b5563;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 25px;
+        }
+
+        /* =========================
+           COUNTERS
+        ========================= */
+
+        .counters {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .counter {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .counter-title {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .counter-value {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .counter.overdue .counter-value {
+            color: #dc2626;
+        }
+
+        /* =========================
+           TABS
+        ========================= */
+
+        .tabs {
+            background: white;
+            border-radius: 12px;
+            padding: 8px;
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+
+        .tab {
+            background: transparent;
+            color: #374151;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            background: #f3f4f6;
+        }
+
+        .tab.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content-box {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .content-header {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .content-header h2 {
+            margin: 0;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .new-repair-button {
+            background: #16a34a;
+            color: white;
+        }
+
+        .new-repair-button:hover {
+            background: #15803d;
+        }
+
+        .refresh-button {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            background: #f9fafb;
+            text-align: left;
+            padding: 13px;
+            font-size: 13px;
+            color: #6b7280;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 14px 13px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        tr:hover td {
+            background: #f9fafb;
+        }
+
+        .repair-number {
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-new {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .status-repair {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-ready {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-issued {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .status-cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .overdue-row td {
+            background: #fff1f2;
+        }
+
+        .overdue-label {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 50px 20px;
+            color: #9ca3af;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #6b7280;
+        }
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 750px;
+            background: white;
+            margin: 30px auto;
+            border-radius: 14px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+        }
+
+        .close-button {
+            background: #f3f4f6;
+            color: #374151;
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .form-section {
+            margin-bottom: 25px;
+        }
+
+        .form-section h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 17px;
+            color: #111827;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 10px;
+        }
+
+        .cancel-button {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .save-button {
+            background: #16a34a;
+            color: white;
+        }
+
+        .save-button:hover {
+            background: #15803d;
+        }
+
+        .form-message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .form-message.error-message {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .form-message.success-message {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .topbar {
+                padding: 15px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .counters {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .header-buttons {
+                flex-direction: column;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .counters {
+                gap: 10px;
+            }
+
+            .counter {
+                padding: 15px;
+            }
+
+            .counter-value {
+                font-size: 24px;
+            }
+
+            .modal-overlay {
+                padding: 10px;
+            }
+
+            .modal {
+                margin: 10px auto;
+            }
+
+            .modal-body {
+                padding: 18px;
+            }
+        }
+
+
+/* =========================
+   EMPLOYEES
+========================= */
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.topbar-button {
+    background: #2563eb;
+    color: white;
+}
+
+.topbar-button:hover {
+    background: #1d4ed8;
+}
+
+.page-hidden {
+    display: none;
+}
+
+.page-subtitle {
+    margin-top: 5px;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.employees-toolbar {
+    padding: 18px 20px 4px;
+}
+
+.employees-toolbar input {
+    max-width: 500px;
+    margin-bottom: 12px;
+}
+
+.employees-table {
+    min-width: 650px;
+}
+
+.employee-role-select {
+    max-width: 220px;
+    margin: 0;
+}
+
+.role-badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.role-ADMIN {
+    background: #ede9fe;
+    color: #6d28d9;
+}
+
+.role-REPAIRMAN {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.role-RECEPTION {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.employee-modal {
+    max-width: 600px;
+}
+
+@media (max-width: 800px) {
+    .topbar-actions {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .user-info {
+        width: 100%;
+        margin-right: 0;
+    }
+}
