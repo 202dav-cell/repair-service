@@ -45,7 +45,8 @@ function renderEmployees() {
     const query = (employeeSearch.value || '').trim().toLowerCase();
     const employees = allEmployees.filter(employee =>
         (employee.full_name || '').toLowerCase().includes(query) ||
-        String(roleLabels[employee.role] || employee.role || '').toLowerCase().includes(query)
+        String(roleLabels[employee.role] || employee.role || '').toLowerCase().includes(query) ||
+        (employee.social_networks || '').toLowerCase().includes(query)
     );
 
     if (!employees.length) {
@@ -54,11 +55,12 @@ function renderEmployees() {
     }
 
     let html = '<div class="table-wrapper"><table class="employees-table"><thead><tr>';
-    html += '<th>Сотрудник</th><th>Уровень доступа</th><th>Изменить доступ</th></tr></thead><tbody>';
+    html += '<th>Сотрудник</th><th>Соц. сети</th><th>Уровень доступа</th><th>Изменить доступ</th></tr></thead><tbody>';
     employees.forEach(employee => {
         const role = String(employee.role || '');
         html += '<tr>';
         html += '<td><strong>' + escapeHtml(employee.full_name || 'Без имени') + '</strong></td>';
+        html += '<td>' + escapeHtml(employee.social_networks || '—') + '</td>';
         html += '<td><span class="role-badge role-' + escapeHtml(role) + '">' + escapeHtml(roleLabels[role] || role || 'Не назначен') + '</span></td>';
         html += '<td><select class="employee-role-select" data-user-id="' + escapeHtml(employee.id) + '">';
         Object.entries(roleLabels).forEach(([value, label]) => {
@@ -122,8 +124,9 @@ employeeForm.addEventListener('submit', async function(event) {
         const fullName = document.getElementById('employeeName').value.trim();
         const email = document.getElementById('employeeEmail').value.trim();
         const password = document.getElementById('employeePassword').value;
+        const socialNetworks = document.getElementById('employeeSocialNetworks').value.trim();
         const role = document.getElementById('employeeRole').value;
-        const { data, error } = await createEmployeeAccount(fullName, email, password, role);
+        const { data, error } = await createEmployeeAccount(fullName, email, password, role, socialNetworks);
         if (error) throw new Error(error.message);
 
         employeeFormMessage.className = 'form-message success-message';
