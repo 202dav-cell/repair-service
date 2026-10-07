@@ -85,10 +85,6 @@ Deno.serve(async (req: Request) => {
     const action = String(body.action || "update").trim();
     const userId = String(body.user_id || "").trim();
 
-    if (!userId) {
-      return jsonResponse({ error: "Не указан сотрудник." }, 400);
-    }
-
     if (action === "list") {
       const {
         data: usersData,
@@ -110,7 +106,7 @@ Deno.serve(async (req: Request) => {
         error: profilesError,
       } = await adminClient
         .from("profiles")
-        .select("id, full_name, role, social_networks")
+        .select("id, full_name, role, social_networks, phone")
         .order("full_name");
 
       if (profilesError) {
@@ -134,6 +130,7 @@ Deno.serve(async (req: Request) => {
             full_name: profile.full_name || user.user_metadata?.full_name || "",
             role: profile.role,
             social_networks: profile.social_networks || "",
+            phone: profile.phone || "",
             email: user.email || "",
           };
         })
@@ -146,6 +143,10 @@ Deno.serve(async (req: Request) => {
         );
 
       return jsonResponse({ data });
+    }
+
+    if (!userId) {
+      return jsonResponse({ error: "Не указан сотрудник." }, 400);
     }
 
     if (action === "get") {
@@ -169,7 +170,7 @@ Deno.serve(async (req: Request) => {
         error: profileError,
       } = await adminClient
         .from("profiles")
-        .select("id, full_name, role, social_networks")
+        .select("id, full_name, role, social_networks, phone")
         .eq("id", userId)
         .single();
 
@@ -189,6 +190,7 @@ Deno.serve(async (req: Request) => {
           full_name: profile.full_name,
           role: profile.role,
           social_networks: profile.social_networks,
+          phone: profile.phone,
           email: authResult.user.email || "",
         },
       });
@@ -232,6 +234,7 @@ Deno.serve(async (req: Request) => {
     const email = String(body.email || "").trim().toLowerCase();
     const password = String(body.password || "");
     const socialNetworks = String(body.social_networks || "").trim();
+    const phone = String(body.phone || "").trim();
 
     if (fullName.length < 2) {
       return jsonResponse({ error: "Укажите ФИО сотрудника." }, 400);
@@ -288,6 +291,7 @@ Deno.serve(async (req: Request) => {
         full_name: fullName,
         role,
         social_networks: socialNetworks || null,
+        phone: phone || null,
       })
       .eq("id", userId)
       .select("id, full_name, role, social_networks")
@@ -310,6 +314,7 @@ Deno.serve(async (req: Request) => {
         full_name: profile.full_name,
         role: profile.role,
         social_networks: profile.social_networks,
+        phone: profile.phone,
         email: updatedAuth.user.email || email,
       },
       message: "Данные сотрудника сохранены.",
