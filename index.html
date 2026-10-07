@@ -144,5 +144,52 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    const SUPABASE_URL = 'https://xuhpdymilkoksowgefhr.supabase.co';
+
+    const SUPABASE_KEY = 'sb_publishable_Id3MLPNpCV-CAL3gpyhqog_eqxeB2ZA';
+
+    const supabaseClient = supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+    const loginForm = document.getElementById('loginForm');
+    const message = document.getElementById('message');
+
+    loginForm.addEventListener('submit', async function(event) {
+
+        event.preventDefault();
+
+        message.textContent = '';
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        const { data, error } =
+            await supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+        if (error) {
+            message.textContent = 'Ошибка входа: ' + error.message;
+            return;
+        }
+
+        message.style.color = '#16a34a';
+        message.textContent = 'Вход выполнен!';
+
+        console.log('Пользователь:', data.user);
+
+    });
+</script>
+
+</body>
+</html>
+
+    
 </body>
 </html>
