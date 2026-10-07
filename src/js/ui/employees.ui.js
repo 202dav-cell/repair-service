@@ -57,6 +57,7 @@ function renderEmployees() {
     const employees = allEmployees.filter(employee => {
         const searchable = [
             employee.full_name,
+            employee.phone,
             employee.email,
             employee.social_networks,
             roleLabels[employee.role] || employee.role
@@ -78,6 +79,7 @@ function renderEmployees() {
 
         html += '<tr class="employee-row" data-user-id="' + escapeHtml(employee.id) + '">';
         html += '<td><strong>' + escapeHtml(employee.full_name || 'Без имени') + '</strong></td>';
+        html += '<td class="employee-phone">' + escapeHtml(employee.phone || '—') + '</td>';
         html += '<td class="employee-email">' + escapeHtml(employee.email || '—') + '</td>';
         html += '<td>' + escapeHtml(employee.social_networks || '—') + '</td>';
         html += '<td><span class="role-badge role-' + escapeHtml(role) + '">' +
