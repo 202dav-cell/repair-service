@@ -7,49 +7,57 @@ async function getEmployees() {
 }
 
 async function createEmployeeAccount(fullName, email, password, role, socialNetworks) {
-    const result = await supabaseClient.functions.invoke('create-employee', {
-        body: {
-            full_name: fullName,
-            email,
-            password,
-            role,
-            social_networks: socialNetworks || ''
+    try {
+        const { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
+        if (sessionError || !sessionData?.session?.access_token) {
+            return { data: null, error: new Error('Сессия пользователя не найдена. Войдите в систему заново.') };
         }
-    });
 
-    if (result.error) {
-        let message = result.error.message || 'Ошибка создания сотрудника.';
-
-        // Supabase часто показывает только "Edge Function returned a non-2xx status code".
-        // Читаем тело ответа Edge Function, чтобы показать пользователю реальную причину.
-        try {
-            const response = result.error.context;
-            if (response && typeof response.clone === 'function') {
-                const cloned = response.clone();
-                const contentType = cloned.headers.get('content-type') || '';
-                if (contentType.includes('application/json')) {
-                    const body = await cloned.json();
-                    if (body?.error) message = body.error;
-                } else {
-                    const bodyText = await cloned.text();
-                    if (bodyText) {
-                        try {
-                            const body = JSON.parse(bodyText);
-                            if (body?.error) message = body.error;
-                        } catch (_) {
-                            // Оставляем исходное сообщение Supabase.
-                        }
-                    }
-                }
+        const response = await fetch(
+            SUPABASE_URL + '/functions/v1/create-employee',
+            {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + sessionData.session.access_token,
+                    'apikey': SUPABASE_KEY,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    full_name: fullName,
+                    email,
+                    password,
+                    role,
+                    social_networks: socialNetworks || ''
+                })
             }
+        );
+
+        const responseText = await response.text();
+        let body = {};
+        try {
+            body = responseText ? JSON.parse(responseText) : {};
         } catch (_) {
-            // Оставляем исходное сообщение Supabase.
+            body = {};
         }
 
-        return { data: null, error: new Error(message) };
-    }
+        if (!response.ok) {
+            return {
+                data: null,
+                error: new Error(
+                    body?.error ||
+                    body?.message ||
+                    ('Ошибка создания сотрудника. HTTP ' + response.status)
+                )
+            };
+        }
 
-    return result;
+        return { data: body?.data || body, error: null };
+    } catch (error) {
+        return {
+            data: null,
+            error: new Error(error?.message || 'Не удалось выполнить запрос к серверу.')
+        };
+    }
 }
 
 async function updateEmployeeRole(userId, role) {
