@@ -161,6 +161,7 @@ async function openEmployeeDetails(userId) {
 
         document.getElementById('employeeDetailsName').value = selectedEmployee.full_name || '';
         document.getElementById('employeeDetailsEmail').value = selectedEmployee.email || '';
+        document.getElementById('employeeDetailsPhone').value = selectedEmployee.phone || '';
         document.getElementById('employeeDetailsSocialNetworks').value = selectedEmployee.social_networks || '';
     }
 }
