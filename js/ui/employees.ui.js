@@ -7,12 +7,15 @@ let allEmployees = [];
 
 const roleLabels = {
     ADMIN: 'Администратор',
+    admin: 'Администратор',
     REPAIRMAN: 'Ремонтник',
-    RECEPTION: 'Ресепшн'
+    repairman: 'Ремонтник',
+    RECEPTION: 'Ресепшн',
+    reception: 'Ресепшн'
 };
 
 function isAdmin() {
-    return currentUserProfile && currentUserProfile.role === 'ADMIN';
+    return currentUserProfile && String(currentUserProfile.role || '').toUpperCase() === 'ADMIN';
 }
 
 async function openEmployeesPage() {
