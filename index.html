@@ -2123,6 +2123,20 @@ async function checkSession() {
    START
 ===================================================== */
 
+async function loadClients() {
+    const { data, error } = await supabaseClient
+        .from('clients')
+        .select('id, full_name, phone')
+        .order('full_name');
+
+    if (error) {
+        console.error('Ошибка загрузки клиентов:', error);
+        return;
+    }
+
+    console.log('Клиенты загружены:', data);
+}
+
 checkSession();
 
 </script>
