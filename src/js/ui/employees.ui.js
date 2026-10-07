@@ -71,7 +71,7 @@ function renderEmployees() {
     }
 
     let html = '<div class="table-wrapper"><table class="employees-table employees-table-modern"><thead><tr>';
-    html += '<th>ФИО</th><th>Email</th><th>Соц. сети</th><th>Уровень доступа</th></tr></thead><tbody>';
+    html += '<th>ФИО</th><th>Телефон</th><th>Email</th><th>Соц. сети</th><th>Уровень доступа</th></tr></thead><tbody>';
 
     employees.forEach(employee => {
         const role = String(employee.role || '');
@@ -94,7 +94,7 @@ function renderEmployees() {
         table.style.tableLayout = 'fixed';
         table.style.minWidth = '760px';
 
-        const widths = ['24%', '28%', '28%', '20%'];
+        const widths = ['22%', '17%', '24%', '22%', '15%'];
         table.querySelectorAll('thead th').forEach((th, index) => {
             th.style.width = widths[index] || '';
         });
@@ -136,6 +136,7 @@ async function openEmployeeDetails(userId) {
 
     document.getElementById('employeeDetailsName').value = selectedEmployee.full_name || '';
     document.getElementById('employeeDetailsEmail').value = selectedEmployee.email || '';
+    document.getElementById('employeeDetailsPhone').value = selectedEmployee.phone || '';
     document.getElementById('employeeDetailsSocialNetworks').value = selectedEmployee.social_networks || '';
 
     const role = String(selectedEmployee.role || '');
@@ -167,6 +168,7 @@ function setEmployeeDetailsMode(editing) {
 
     document.getElementById('employeeDetailsName').disabled = !editing;
     document.getElementById('employeeDetailsEmail').disabled = !editing;
+    document.getElementById('employeeDetailsPhone').disabled = !editing;
     document.getElementById('employeeDetailsSocialNetworks').disabled = !editing;
     document.getElementById('employeeDetailsRole').disabled = !editing;
     document.getElementById('employeeDetailsPasswordInput').disabled = !editing;
@@ -227,6 +229,7 @@ document.getElementById('employeeDetailsCancelEditButton').addEventListener('cli
 
     document.getElementById('employeeDetailsName').value = selectedEmployee.full_name || '';
     document.getElementById('employeeDetailsEmail').value = selectedEmployee.email || '';
+    document.getElementById('employeeDetailsPhone').value = selectedEmployee.phone || '';
     document.getElementById('employeeDetailsSocialNetworks').value = selectedEmployee.social_networks || '';
 
     const role = String(selectedEmployee.role || '');
@@ -253,6 +256,7 @@ employeeForm.addEventListener('submit', async function(event) {
     try {
         const fullName = document.getElementById('employeeName').value.trim();
         const email = document.getElementById('employeeEmail').value.trim();
+        const phone = document.getElementById('employeePhone').value.trim();
         const password = document.getElementById('employeePassword').value;
         const socialNetworks = document.getElementById('employeeSocialNetworks').value.trim();
         const role = document.getElementById('employeeRole').value;
@@ -260,6 +264,7 @@ employeeForm.addEventListener('submit', async function(event) {
         const { error } = await createEmployeeAccount(
             fullName,
             email,
+            phone,
             password,
             role,
             socialNetworks
@@ -300,6 +305,7 @@ employeeDetailsForm.addEventListener('submit', async function(event) {
             user_id: selectedEmployee.id,
             full_name: document.getElementById('employeeDetailsName').value.trim(),
             email: document.getElementById('employeeDetailsEmail').value.trim(),
+            phone: document.getElementById('employeeDetailsPhone').value.trim(),
             password: document.getElementById('employeeDetailsPasswordInput').value,
             social_networks: document.getElementById('employeeDetailsSocialNetworks').value.trim(),
             role: document.getElementById('employeeDetailsRole').value
