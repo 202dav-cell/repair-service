@@ -50,7 +50,7 @@ Deno.serve(async (req) => {
 
     const roleMap: Record<string, string> = {
       ADMIN: "ADMIN", admin: "ADMIN",
-      master: "REPAIRMAN", MASTER: "REPAIRMAN", repairman: "REPAIRMAN", REPAIRMAN: "REPAIRMAN",
+      master: "MASTER", MASTER: "MASTER", repairman: "MASTER", REPAIRMAN: "MASTER",
       reception: "RECEPTION", RECEPTION: "RECEPTION"
     };
 
