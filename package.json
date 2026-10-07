@@ -1,0 +1,12 @@
+{
+  "name": "dav-service",
+  "private": true,
+  "version": "1.0.0",
+  "description": "DAV Service repair management system",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}
