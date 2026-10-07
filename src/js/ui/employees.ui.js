@@ -84,15 +84,18 @@ function renderEmployees() {
     container.innerHTML = html;
 
     container.querySelectorAll('.employee-row').forEach(row => {
-        row.addEventListener('click', async event => {
-            if (event.target.closest('button')) {
-                event.preventDefault();
-            }
-
-            const userId = row.dataset.userId;
-            await openEmployeeDetails(userId);
-        });
+        row.style.cursor = 'pointer';
     });
+
+    container.onclick = async event => {
+        const row = event.target.closest('.employee-row');
+        if (!row) return;
+
+        const userId = row.getAttribute('data-user-id');
+        if (!userId) return;
+
+        await openEmployeeDetails(userId);
+    };
 }
 
 async function openEmployeeDetails(userId) {
