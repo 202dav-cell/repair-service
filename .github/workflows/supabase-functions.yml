@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+      SUPABASE_PROJECT_ID: xuhpdymilkoksowgefhr
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,6 +26,11 @@ jobs:
         uses: supabase/setup-cli@v1
         with:
           version: latest
+
+      - name: Check Supabase credentials
+        run: |
+          test -n "$SUPABASE_ACCESS_TOKEN" || { echo "SUPABASE_ACCESS_TOKEN is not configured in GitHub Secrets."; exit 1; }
+          test -n "$SUPABASE_PROJECT_ID" || { echo "SUPABASE_PROJECT_ID is not configured."; exit 1; }
 
       - name: Deploy Edge Functions
         run: supabase functions deploy --project-ref "$SUPABASE_PROJECT_ID"
