@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>DAV Service</title>
+    <title>Система ремонта</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -17,12 +17,12 @@
             margin: 0;
             font-family: Arial, sans-serif;
             background: #f3f4f6;
-            color: #1f2937;
+            color: #222;
         }
 
         /* LOGIN */
 
-        #loginPage {
+        #loginScreen {
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -30,273 +30,356 @@
             padding: 20px;
         }
 
-        .login-card {
+        .login-box {
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
             background: white;
             padding: 35px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,.08);
+            border-radius: 14px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.12);
         }
 
-        .logo {
+        .login-box h1 {
+            margin-top: 0;
             text-align: center;
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 8px;
         }
 
-        .subtitle {
+        .login-box p {
             text-align: center;
-            color: #6b7280;
-            margin-bottom: 30px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: 600;
+            color: #777;
         }
 
         input {
             width: 100%;
             padding: 13px;
-            border: 1px solid #d1d5db;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            font-size: 16px;
-            margin-bottom: 18px;
+            font-size: 15px;
+            margin-top: 7px;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
         }
 
         button {
-            border: 0;
+            border: none;
             border-radius: 8px;
             padding: 12px 18px;
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer;
         }
 
-        .primary {
+        .primary-button {
             width: 100%;
             background: #2563eb;
             color: white;
         }
 
-        .primary:hover {
+        .primary-button:hover {
             background: #1d4ed8;
         }
 
-        .message {
-            margin-top: 15px;
-            text-align: center;
+        .error {
             color: #dc2626;
+            margin-top: 10px;
+            text-align: center;
         }
 
         /* APP */
 
-        #appPage {
+        #app {
             display: none;
             min-height: 100vh;
         }
 
         .topbar {
-            height: 64px;
-            background: white;
-            border-bottom: 1px solid #e5e7eb;
+            background: #111827;
+            color: white;
+            padding: 15px 25px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 25px;
+            gap: 20px;
         }
 
-        .topbar-title {
-            font-size: 20px;
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            font-size: 22px;
             font-weight: bold;
         }
 
         .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            font-size: 13px;
+            color: #d1d5db;
         }
 
-        .logout {
-            background: #ef4444;
+        .logout-button {
+            background: #374151;
             color: white;
         }
 
-        .logout:hover {
-            background: #dc2626;
+        .logout-button:hover {
+            background: #4b5563;
         }
 
-        .content {
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
             padding: 25px;
         }
 
-        .tabs {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 25px;
-        }
+        /* COUNTERS */
 
-        .tab {
-            background: white;
-            border: 1px solid #d1d5db;
-        }
-
-        .tab.active {
-            background: #2563eb;
-            color: white;
-            border-color: #2563eb;
-        }
-
-        .new-repair {
-            background: #16a34a;
-            color: white;
-            margin-left: auto;
-        }
-
-        .new-repair:hover {
-            background: #15803d;
-        }
-
-        .dashboard {
+        .counters {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 15px;
             margin-bottom: 25px;
         }
 
-        .stat-card {
+        .counter {
             background: white;
             border-radius: 12px;
             padding: 20px;
-            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        .stat-title {
+        .counter-title {
             color: #6b7280;
             font-size: 14px;
+            margin-bottom: 8px;
         }
 
-        .stat-number {
+        .counter-value {
             font-size: 30px;
             font-weight: bold;
-            margin-top: 8px;
         }
 
-        .table-container {
+        .counter.overdue .counter-value {
+            color: #dc2626;
+        }
+
+        /* TABS */
+
+        .tabs {
             background: white;
             border-radius: 12px;
+            padding: 8px;
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             overflow-x: auto;
-            border: 1px solid #e5e7eb;
+        }
+
+        .tab {
+            background: transparent;
+            color: #374151;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            background: #f3f4f6;
+        }
+
+        .tab.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* CONTENT */
+
+        .content-box {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .content-header {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .content-header h2 {
+            margin: 0;
+        }
+
+        .refresh-button {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        /* TABLE */
+
+        .table-wrapper {
+            overflow-x: auto;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-        }
-
-        th,
-        td {
-            text-align: left;
-            padding: 14px;
-            border-bottom: 1px solid #e5e7eb;
+            min-width: 850px;
         }
 
         th {
             background: #f9fafb;
+            text-align: left;
+            padding: 13px;
+            font-size: 13px;
+            color: #6b7280;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 14px 13px;
+            border-bottom: 1px solid #e5e7eb;
             font-size: 14px;
         }
 
+        tr:hover td {
+            background: #f9fafb;
+        }
+
+        .repair-number {
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-new {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .status-repair {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-ready {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-issued {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .status-cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .overdue-row td {
+            background: #fff1f2;
+        }
+
+        .overdue-label {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
         .empty {
-            padding: 50px;
             text-align: center;
+            padding: 50px 20px;
+            color: #9ca3af;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
             color: #6b7280;
         }
 
+        .message {
+            margin: 15px 20px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .message.error-message {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .message.success-message {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        /* MOBILE */
+
         @media (max-width: 800px) {
 
-            .dashboard {
+            .topbar {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .counters {
                 grid-template-columns: repeat(2, 1fr);
             }
 
             .topbar {
-                padding: 0 15px;
+                flex-direction: column;
+                align-items: flex-start;
             }
 
-            .content {
-                padding: 15px;
+            .topbar-right {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
             }
         }
 
         @media (max-width: 500px) {
 
-            .dashboard {
-                grid-template-columns: 1fr;
+            .counters {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
             }
 
-            .user-info span {
-                display: none;
+            .counter {
+                padding: 15px;
+            }
+
+            .counter-value {
+                font-size: 24px;
+            }
+
+            .tabs {
+                border-radius: 8px;
+            }
+
+            .content-header {
+                padding: 15px;
             }
         }
-
-        .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,.55);
-    overflow-y: auto;
-    padding: 30px 15px;
-}
-
-.modal-content {
-    max-width: 650px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 16px;
-    padding: 30px;
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.modal-header h2 {
-    margin: 0;
-}
-
-.close-modal {
-    width: auto;
-    background: transparent;
-    color: #374151;
-    font-size: 30px;
-    padding: 0 10px;
-}
-
-.modal-content h3 {
-    margin-top: 25px;
-    border-bottom: 1px solid #e5e7eb;
-    padding-bottom: 8px;
-}
-
-.modal-content textarea {
-    width: 100%;
-    min-height: 120px;
-    padding: 13px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 16px;
-    resize: vertical;
-    margin-bottom: 18px;
-}
     </style>
 </head>
 
@@ -306,17 +389,13 @@
 <!-- LOGIN -->
 <!-- ========================= -->
 
-<div id="loginPage">
+<div id="loginScreen">
 
-    <div class="login-card">
+    <div class="login-box">
 
-        <div class="logo">
-            DAV Service
-        </div>
+        <h1>🔧 Система ремонта</h1>
 
-        <div class="subtitle">
-            Вход в рабочую панель
-        </div>
+        <p>Вход в систему</p>
 
         <form id="loginForm">
 
@@ -342,544 +421,17 @@
                 required
             >
 
-            <button class="primary" type="submit">
-                Войти
-            </button>
-
-            <div class="message" id="loginMessage"></div>
-
-        </form>
-
-    </div>
-
-</div>
-
-
-<!-- ========================= -->
-<!-- APPLICATION -->
-<!-- ========================= -->
-
-<div id="appPage">
-
-    <div class="topbar">
-
-        <div class="topbar-title">
-            🔧 DAV Service
-        </div>
-
-        <div class="user-info">
-
-            <span id="userName">
-                Администратор
-            </span>
-
             <button
-                class="logout"
-                id="logoutButton">
-                Выйти
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <div class="content">
-
-        <!-- TABS -->
-
-        <div class="tabs">
-
-            <button
-                class="tab active"
-                data-status="NEW">
-                Новые
-            </button>
-
-            <button
-                class="tab"
-                data-status="IN_REPAIR">
-                В ремонте
-            </button>
-
-            <button
-                class="tab"
-                data-status="OVERDUE">
-                🔴 Просрочено
-            </button>
-
-            <button
-                class="tab"
-                data-status="READY">
-                К выдаче
-            </button>
-
-            <button
-                class="tab"
-                data-status="ARCHIVE">
-                Архив
-            </button>
-
-            <button
-                class="new-repair"
-                id="newRepairButton">
-                + Новый ремонт
-            </button>
-
- <button
                 type="submit"
-                class="primary">
-                Принять в ремонт
+                class="primary-button"
+            >
+                Войти
             </button>
 
             <div
-                id="repairMessage"
-                class="message">
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
-
-            
-
-        </div>
-
-
-        <!-- STATISTICS -->
-
-        <div class="dashboard">
-
-            <div class="stat-card">
-
-                <div class="stat-title">
-                    Новые
-                </div>
-
-                <div
-                    class="stat-number"
-                    id="newCount">
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-title">
-                    В ремонте
-                </div>
-
-                <div
-                    class="stat-number"
-                    id="repairCount">
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-title">
-                    Просрочено
-                </div>
-
-                <div
-                    class="stat-number"
-                    id="overdueCount">
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-title">
-                    К выдаче
-                </div>
-
-                <div
-                    class="stat-number"
-                    id="readyCount">
-                    0
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- TABLE -->
-
-        <div class="table-container">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            №
-                        </th>
-
-                        <th>
-                            Клиент
-                        </th>
-
-                        <th>
-                            Оборудование
-                        </th>
-
-                        <th>
-                            Бренд / модель
-                        </th>
-
-                        <th>
-                            Статус
-                        </th>
-
-                        <th>
-                            Дата
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="repairsTable">
-
-                    <tr>
-
-                        <td
-                            colspan="6"
-                            class="empty">
-
-                            Пока нет ремонтов
-
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<script>
-
-    /* =========================================
-       SUPABASE
-    ========================================= */
-
-    const SUPABASE_URL =
-        'https://xuhpdymilkoksowgefhr.supabase.co';
-
-    const SUPABASE_KEY =
-        '<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>DAV Service</title>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f3f4f6;
-            color: #1f2937;
-        }
-
-        /* LOGIN */
-
-        #loginPage {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .login-card {
-            width: 100%;
-            max-width: 420px;
-            background: white;
-            padding: 35px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,.08);
-        }
-
-        .logo {
-            text-align: center;
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #6b7280;
-            margin-bottom: 30px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: 600;
-        }
-
-        input {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 16px;
-            margin-bottom: 18px;
-        }
-
-        button {
-            border: 0;
-            border-radius: 8px;
-            padding: 12px 18px;
-            font-size: 15px;
-            cursor: pointer;
-        }
-
-        .primary {
-            width: 100%;
-            background: #2563eb;
-            color: white;
-        }
-
-        .primary:hover {
-            background: #1d4ed8;
-        }
-
-        .message {
-            margin-top: 15px;
-            text-align: center;
-            color: #dc2626;
-        }
-
-        /* APP */
-
-        #appPage {
-            display: none;
-            min-height: 100vh;
-        }
-
-        .topbar {
-            height: 64px;
-            background: white;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 25px;
-        }
-
-        .topbar-title {
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logout {
-            background: #ef4444;
-            color: white;
-        }
-
-        .logout:hover {
-            background: #dc2626;
-        }
-
-        .content {
-            padding: 25px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 25px;
-        }
-
-        .tab {
-            background: white;
-            border: 1px solid #d1d5db;
-        }
-
-        .tab.active {
-            background: #2563eb;
-            color: white;
-            border-color: #2563eb;
-        }
-
-        .new-repair {
-            background: #16a34a;
-            color: white;
-            margin-left: auto;
-        }
-
-        .new-repair:hover {
-            background: #15803d;
-        }
-
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid #e5e7eb;
-        }
-
-        .stat-title {
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        .stat-number {
-            font-size: 30px;
-            font-weight: bold;
-            margin-top: 8px;
-        }
-
-        .table-container {
-            background: white;
-            border-radius: 12px;
-            overflow-x: auto;
-            border: 1px solid #e5e7eb;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            text-align: left;
-            padding: 14px;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        th {
-            background: #f9fafb;
-            font-size: 14px;
-        }
-
-        .empty {
-            padding: 50px;
-            text-align: center;
-            color: #6b7280;
-        }
-
-        @media (max-width: 800px) {
-
-            .dashboard {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .topbar {
-                padding: 0 15px;
-            }
-
-            .content {
-                padding: 15px;
-            }
-        }
-
-        @media (max-width: 500px) {
-
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-
-            .user-info span {
-                display: none;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-<!-- ========================= -->
-<!-- LOGIN -->
-<!-- ========================= -->
-
-<div id="loginPage">
-
-    <div class="login-card">
-
-        <div class="logo">
-            DAV Service
-        </div>
-
-        <div class="subtitle">
-            Вход в рабочую панель
-        </div>
-
-        <form id="loginForm">
-
-            <label for="email">
-                Email
-            </label>
-
-            <input
-                type="email"
-                id="email"
-                placeholder="Введите email"
-                required
-            >
-
-            <label for="password">
-                Пароль
-            </label>
-
-            <input
-                type="password"
-                id="password"
-                placeholder="Введите пароль"
-                required
-            >
-
-            <button class="primary" type="submit">
-                Войти
-            </button>
-
-            <div class="message" id="loginMessage"></div>
+                id="loginError"
+                class="error"
+            ></div>
 
         </form>
 
@@ -892,23 +444,33 @@
 <!-- APPLICATION -->
 <!-- ========================= -->
 
-<div id="appPage">
+<div id="app">
+
+    <!-- TOP BAR -->
 
     <div class="topbar">
 
-        <div class="topbar-title">
-            🔧 DAV Service
+        <div class="topbar-left">
+
+            <div class="logo">
+                🔧 Система ремонта
+            </div>
+
         </div>
 
-        <div class="user-info">
+        <div class="topbar-right">
 
-            <span id="userName">
-                Администратор
+            <span
+                id="userInfo"
+                class="user-info"
+            >
+                Загрузка...
             </span>
 
             <button
-                class="logout"
-                id="logoutButton">
+                id="logoutButton"
+                class="logout-button"
+            >
                 Выйти
             </button>
 
@@ -917,7 +479,80 @@
     </div>
 
 
-    <div class="content">
+    <!-- MAIN -->
+
+    <div class="container">
+
+
+        <!-- COUNTERS -->
+
+        <div class="counters">
+
+            <div class="counter">
+
+                <div class="counter-title">
+                    Новые
+                </div>
+
+                <div
+                    id="counterNew"
+                    class="counter-value"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="counter">
+
+                <div class="counter-title">
+                    В ремонте
+                </div>
+
+                <div
+                    id="counterRepair"
+                    class="counter-value"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="counter overdue">
+
+                <div class="counter-title">
+                    Просрочено
+                </div>
+
+                <div
+                    id="counterOverdue"
+                    class="counter-value"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="counter">
+
+                <div class="counter-title">
+                    К выдаче
+                </div>
+
+                <div
+                    id="counterReady"
+                    class="counter-value"
+                >
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
 
         <!-- TABS -->
 
@@ -925,164 +560,74 @@
 
             <button
                 class="tab active"
-                data-status="NEW">
+                data-tab="NEW"
+            >
                 Новые
             </button>
 
             <button
                 class="tab"
-                data-status="IN_REPAIR">
+                data-tab="IN_REPAIR"
+            >
                 В ремонте
             </button>
 
             <button
                 class="tab"
-                data-status="OVERDUE">
+                data-tab="OVERDUE"
+            >
                 🔴 Просрочено
             </button>
 
             <button
                 class="tab"
-                data-status="READY">
+                data-tab="READY"
+            >
                 К выдаче
             </button>
 
             <button
                 class="tab"
-                data-status="ARCHIVE">
+                data-tab="ARCHIVE"
+            >
                 Архив
             </button>
-
-            <button
-                class="new-repair"
-                id="newRepairButton">
-                + Новый ремонт
-            </button>
-
-        </div>
-
-
-        <!-- STATISTICS -->
-
-        <div class="dashboard">
-
-            <div class="stat-card">
-
-                <div class="stat-title">
-                    Новые
-                </div>
-
-                <div
-                    class="stat-number"
-                    id="newCount">
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-title">
-                    В ремонте
-                </div>
-
-                <div
-                    class="stat-number"
-                    id="repairCount">
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-title">
-                    Просрочено
-                </div>
-
-                <div
-                    class="stat-number"
-                    id="overdueCount">
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-title">
-                    К выдаче
-                </div>
-
-                <div
-                    class="stat-number"
-                    id="readyCount">
-                    0
-                </div>
-
-            </div>
 
         </div>
 
 
         <!-- TABLE -->
 
-        <div class="table-container">
+        <div class="content-box">
 
-            <table>
+            <div class="content-header">
 
-                <thead>
+                <h2 id="pageTitle">
+                    Новые ремонты
+                </h2>
 
-                    <tr>
+                <button
+                    id="refreshButton"
+                    class="refresh-button"
+                >
+                    🔄 Обновить
+                </button>
 
-                        <th>
-                            №
-                        </th>
+            </div>
 
-                        <th>
-                            Клиент
-                        </th>
 
-                        <th>
-                            Оборудование
-                        </th>
+            <div
+                id="message"
+                class="message"
+            ></div>
 
-                        <th>
-                            Бренд / модель
-                        </th>
 
-                        <th>
-                            Статус
-                        </th>
-
-                        <th>
-                            Дата
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="repairsTable">
-
-                    <tr>
-
-                        <td
-                            colspan="6"
-                            class="empty">
-
-                            Пока нет ремонтов
-
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
+            <div
+                id="tableContainer"
+                class="loading"
+            >
+                Загрузка...
+            </div>
 
         </div>
 
@@ -1093,1120 +638,848 @@
 
 <script>
 
-    /* =========================================
-       SUPABASE
-    ========================================= */
+/* =====================================================
+   SUPABASE
+   ===================================================== */
 
-    const SUPABASE_URL =
-        'https://xuhpdymilkoksowgefhr.supabase.co';
+const SUPABASE_URL =
+    'https://xuhpdymilkoksowgefhr.supabase.co';
 
-    const SUPABASE_KEY =
-        'sb_publishable_Id3MLPNpCV-CAL3gpyhqog_eqxeB2ZA';
+/*
+    ВАЖНО!
 
-    const supabaseClient =
-        supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
+    Сюда вставь свой PUBLISHABLE KEY
+    из Supabase → Project Settings → API.
 
+    НЕ вставляй сюда Secret key.
+*/
 
-    /* =========================================
-       ELEMENTS
-    ========================================= */
-
-    const loginPage =
-        document.getElementById('loginPage');
-
-    const appPage =
-        document.getElementById('appPage');
-
-    const loginForm =
-        document.getElementById('loginForm');
-
-    const loginMessage =
-        document.getElementById('loginMessage');
-
-    const logoutButton =
-        document.getElementById('logoutButton');
-
-    const userName =
-        document.getElementById('userName');
+const SUPABASE_KEY =
+    'sb_publishable_Id3MLPNpCV-CAL3gpyhqog_eqxeB2ZA';
 
 
-    /* =========================================
-       LOGIN
-    ========================================= */
-
-    loginForm.addEventListener(
-        'submit',
-        async function(event) {
-
-            event.preventDefault();
-
-            loginMessage.textContent = '';
-
-            const email =
-                document.getElementById('email').value;
-
-            const password =
-                document.getElementById('password').value;
-
-
-            const {
-                data,
-                error
-            } =
-                await supabaseClient.auth
-                    .signInWithPassword({
-
-                        email: email,
-                        password: password
-
-                    });
-
-
-            if (error) {
-
-                loginMessage.textContent =
-                    'Ошибка входа: ' +
-                    error.message;
-
-                return;
-            }
-
-
-            await showApplication(
-                data.user
-            );
-
-        }
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
     );
 
 
-    /* =========================================
-       SHOW APPLICATION
-    ========================================= */
+/* =====================================================
+   VARIABLES
+   ===================================================== */
 
-    async function showApplication(user) {
+let allRepairs = [];
 
-        loginPage.style.display = 'none';
+let currentTab = 'NEW';
 
-        appPage.style.display = 'block';
 
+/* =====================================================
+   LOGIN
+   ===================================================== */
 
-        const {
-            data: profile
-        } =
-            await supabaseClient
-                .from('profiles')
-                .select('full_name, role')
-                .eq('id', user.id)
-                .single();
+const loginForm =
+    document.getElementById('loginForm');
 
+const loginScreen =
+    document.getElementById('loginScreen');
 
-        if (profile) {
+const app =
+    document.getElementById('app');
 
-            userName.textContent =
-                profile.full_name +
-                ' (' +
-                profile.role +
-                ')';
+const loginError =
+    document.getElementById('loginError');
 
-        }
 
-
-        await loadDashboard();
-
-    }
-
-
-    /* =========================================
-       LOGOUT
-    ========================================= */
-
-    logoutButton.addEventListener(
-        'click',
-        async function() {
-
-            await supabaseClient.auth.signOut();
-
-            appPage.style.display = 'none';
-
-            loginPage.style.display = 'flex';
-
-        }
-    );
-
-
-    /* =========================================
-       CHECK EXISTING SESSION
-    ========================================= */
-
-    async function checkSession() {
-
-        const {
-            data
-        } =
-            await supabaseClient
-                .auth
-                .getSession();
-
-
-        if (data.session) {
-
-            await showApplication(
-                data.session.user
-            );
-
-        }
-
-    }
-
-
-    /* =========================================
-       DASHBOARD
-    ========================================= */
-
-    async function loadDashboard() {
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient
-                .from('repair_overview')
-                .select('*');
-
-
-        if (error) {
-
-            console.error(error);
-
-            return;
-
-        }
-
-
-        const repairs = data || [];
-
-
-        const newCount =
-            repairs.filter(
-                r => r.status === 'NEW'
-            ).length;
-
-
-        const repairCount =
-            repairs.filter(
-                r => r.status === 'IN_REPAIR'
-            ).length;
-
-
-        const overdueCount =
-            repairs.filter(
-                r => r.is_overdue === true
-            ).length;
-
-
-        const readyCount =
-            repairs.filter(
-                r => r.status === 'READY'
-            ).length;
-
-
-        document.getElementById(
-            'newCount'
-        ).textContent = newCount;
-
-
-        document.getElementById(
-            'repairCount'
-        ).textContent = repairCount;
-
-
-        document.getElementById(
-            'overdueCount'
-        ).textContent = overdueCount;
-
-
-        document.getElementById(
-            'readyCount'
-        ).textContent = readyCount;
-
-
-        renderRepairs(
-            repairs.filter(
-                r => r.status === 'NEW'
-            )
-        );
-
-    }
-
-
-    /* =========================================
-       TABLE
-    ========================================= */
-
-    function renderRepairs(repairs) {
-
-        const table =
-            document.getElementById(
-                'repairsTable'
-            );
-
-
-        if (!repairs.length) {
-
-            table.innerHTML = `
-                <tr>
-                    <td
-                        colspan="6"
-                        class="empty">
-                        Пока нет ремонтов
-                    </td>
-                </tr>
-            `;
-
-            return;
-
-        }
-
-
-        table.innerHTML =
-            repairs.map(
-                repair => `
-
-                <tr>
-
-                    <td>
-                        ${String(
-                            repair.repair_number
-                        ).padStart(6, '0')}
-                    </td>
-
-                    <td>
-                        ${repair.client_name || ''}
-                    </td>
-
-                    <td>
-                        ${repair.equipment_name || ''}
-                    </td>
-
-                    <td>
-                        ${repair.brand || ''}
-                        ${repair.model || ''}
-                    </td>
-
-                    <td>
-                        ${repair.status}
-                    </td>
-
-                    <td>
-                        ${new Date(
-                            repair.created_at
-                        ).toLocaleDateString('ru-RU')}
-                    </td>
-
-                </tr>
-
-            `
-            ).join('');
-
-    }
-
-
-    /* =========================================
-       TABS
-    ========================================= */
-
-    document
-        .querySelectorAll('.tab')
-        .forEach(button => {
-
-            button.addEventListener(
-                'click',
-                async function() {
-
-                    document
-                        .querySelectorAll('.tab')
-                        .forEach(
-                            b => b.classList.remove(
-                                'active'
-                            )
-                        );
-
-
-                    this.classList.add(
-                        'active'
-                    );
-
-
-                    const status =
-                        this.dataset.status;
-
-
-                    const {
-                        data,
-                        error
-                    } =
-                        await supabaseClient
-                            .from('repair_overview')
-                            .select('*');
-
-
-                    if (error) {
-
-                        console.error(error);
-
-                        return;
-
-                    }
-
-
-                    let filtered = data || [];
-
-
-                    if (status === 'OVERDUE') {
-
-                        filtered =
-                            filtered.filter(
-                                r =>
-                                    r.is_overdue === true
-                            );
-
-                    }
-
-                    else if (status === 'ARCHIVE') {
-
-                        filtered =
-                            filtered.filter(
-                                r =>
-                                    r.status === 'ISSUED' ||
-                                    r.status === 'CANCELLED'
-                            );
-
-                    }
-
-                    else {
-
-                        filtered =
-                            filtered.filter(
-                                r =>
-                                    r.status === status
-                            );
-
-                    }
-
-
-                    renderRepairs(
-                        filtered
-                    );
-
-                }
-            );
-
-        });
-
-
-    /* =========================================
-       START
-    ========================================= */
-/* =========================================
-   NEW REPAIR
-========================================= */
-
-const newRepairButton =
-    document.getElementById('newRepairButton');
-
-const newRepairModal =
-    document.getElementById('newRepairModal');
-
-const closeRepairModal =
-    document.getElementById('closeRepairModal');
-
-const newRepairForm =
-    document.getElementById('newRepairForm');
-
-const repairMessage =
-    document.getElementById('repairMessage');
-
-
-newRepairButton.addEventListener(
-    'click',
-    function() {
-
-        newRepairModal.style.display = 'block';
-
-    }
-);
-
-
-closeRepairModal.addEventListener(
-    'click',
-    function() {
-
-        newRepairModal.style.display = 'none';
-
-    }
-);
-
-
-newRepairModal.addEventListener(
-    'click',
-    function(event) {
-
-        if (event.target === newRepairModal) {
-
-            newRepairModal.style.display = 'none';
-
-        }
-
-    }
-);
-
-
-newRepairForm.addEventListener(
+loginForm.addEventListener(
     'submit',
     async function(event) {
 
         event.preventDefault();
 
-        repairMessage.textContent = '';
-        repairMessage.style.color = '#dc2626';
+        loginError.textContent = '';
 
+        const email =
+            document.getElementById('email').value.trim();
 
-        const clientName =
-            document.getElementById(
-                'clientName'
-            ).value.trim();
+        const password =
+            document.getElementById('password').value;
 
-
-        const clientPhone =
-            document.getElementById(
-                'clientPhone'
-            ).value.trim();
-
-
-        const equipmentName =
-            document.getElementById(
-                'equipmentName'
-            ).value.trim();
-
-
-        const brand =
-            document.getElementById(
-                'brand'
-            ).value.trim();
-
-
-        const model =
-            document.getElementById(
-                'model'
-            ).value.trim();
-
-
-        const serialNumber =
-            document.getElementById(
-                'serialNumber'
-            ).value.trim();
-
-
-        const customerProblem =
-            document.getElementById(
-                'customerProblem'
-            ).value.trim();
-
-
-        try {
-
-            /* -------------------------
-               CURRENT USER
-            ------------------------- */
-
-            const {
-                data: sessionData
-            } =
-                await supabaseClient
-                    .auth
-                    .getSession();
-
-
-            if (!sessionData.session) {
-
-                repairMessage.textContent =
-                    'Сессия закончилась. Войдите снова.';
-
-                return;
-
-            }
-
-
-            const user =
-                sessionData.session.user;
-
-
-            /* -------------------------
-               CLIENT
-            ------------------------- */
-
-            const {
-                data: client,
-                error: clientError
-            } =
-                await supabaseClient
-                    .from('clients')
-                    .insert({
-
-                        full_name: clientName,
-                        phone: clientPhone
-
-                    })
-                    .select()
-                    .single();
-
-
-            if (clientError) {
-
-                throw clientError;
-
-            }
-
-
-            /* -------------------------
-               REPAIR
-            ------------------------- */
-
-            const {
-                data: repair,
-                error: repairError
-            } =
-                await supabaseClient
-                    .from('repair_requests')
-                    .insert({
-
-                        client_id: client.id,
-
-                        equipment_name:
-                            equipmentName,
-
-                        brand:
-                            brand || null,
-
-                        model:
-                            model || null,
-
-                        serial_number:
-                            serialNumber || null,
-
-                        customer_problem:
-                            customerProblem,
-
-                        status:
-                            'NEW',
-
-                        created_by:
-                            user.id
-
-                    })
-                    .select()
-                    .single();
-
-
-            if (repairError) {
-
-                throw repairError;
-
-            }
-
-
-            /* -------------------------
-               HISTORY
-            ------------------------- */
-
-            await supabaseClient
-                .from('repair_history')
-                .insert({
-
-                    repair_id:
-                        repair.id,
-
-                    user_id:
-                        user.id,
-
-                    action:
-                        'Создан ремонт',
-
-                    new_value:
-                        'NEW'
-
-                });
-
-
-            /* -------------------------
-               SUCCESS
-            ------------------------- */
-
-            repairMessage.style.color =
-                '#16a34a';
-
-            repairMessage.textContent =
-                'Ремонт №' +
-                String(
-                    repair.repair_number
-                ).padStart(6, '0') +
-                ' успешно создан';
-
-
-            newRepairForm.reset();
-
-
-            await loadDashboard();
-
-
-            setTimeout(
-                function() {
-
-                    newRepairModal.style.display =
-                        'none';
-
-                    repairMessage.textContent =
-                        '';
-
-                },
-                1500
-            );
-
-        }
-
-        catch (error) {
-
-            console.error(error);
-
-            repairMessage.textContent =
-                'Ошибка: ' +
-                error.message;
-
-        }
-
-    }
-);
-    checkSession();
-
-</script>
-
-</body>
-</html>';
-
-    const supabaseClient =
-        supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
-
-
-    /* =========================================
-       ELEMENTS
-    ========================================= */
-
-    const loginPage =
-        document.getElementById('loginPage');
-
-    const appPage =
-        document.getElementById('appPage');
-
-    const loginForm =
-        document.getElementById('loginForm');
-
-    const loginMessage =
-        document.getElementById('loginMessage');
-
-    const logoutButton =
-        document.getElementById('logoutButton');
-
-    const userName =
-        document.getElementById('userName');
-
-
-    /* =========================================
-       LOGIN
-    ========================================= */
-
-    loginForm.addEventListener(
-        'submit',
-        async function(event) {
-
-            event.preventDefault();
-
-            loginMessage.textContent = '';
-
-            const email =
-                document.getElementById('email').value;
-
-            const password =
-                document.getElementById('password').value;
-
-
-            const {
-                data,
-                error
-            } =
-                await supabaseClient.auth
-                    .signInWithPassword({
-
-                        email: email,
-                        password: password
-
-                    });
-
-
-            if (error) {
-
-                loginMessage.textContent =
-                    'Ошибка входа: ' +
-                    error.message;
-
-                return;
-            }
-
-
-            await showApplication(
-                data.user
-            );
-
-        }
-    );
-
-
-    /* =========================================
-       SHOW APPLICATION
-    ========================================= */
-
-    async function showApplication(user) {
-
-        loginPage.style.display = 'none';
-
-        appPage.style.display = 'block';
-
-
-        const {
-            data: profile
-        } =
-            await supabaseClient
-                .from('profiles')
-                .select('full_name, role')
-                .eq('id', user.id)
-                .single();
-
-
-        if (profile) {
-
-            userName.textContent =
-                profile.full_name +
-                ' (' +
-                profile.role +
-                ')';
-
-        }
-
-
-        await loadDashboard();
-
-    }
-
-
-    /* =========================================
-       LOGOUT
-    ========================================= */
-
-    logoutButton.addEventListener(
-        'click',
-        async function() {
-
-            await supabaseClient.auth.signOut();
-
-            appPage.style.display = 'none';
-
-            loginPage.style.display = 'flex';
-
-        }
-    );
-
-
-    /* =========================================
-       CHECK EXISTING SESSION
-    ========================================= */
-
-    async function checkSession() {
-
-        const {
-            data
-        } =
-            await supabaseClient
-                .auth
-                .getSession();
-
-
-        if (data.session) {
-
-            await showApplication(
-                data.session.user
-            );
-
-        }
-
-    }
-
-
-    /* =========================================
-       DASHBOARD
-    ========================================= */
-
-    async function loadDashboard() {
 
         const {
             data,
             error
         } =
-            await supabaseClient
-                .from('repair_overview')
-                .select('*');
+        await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
 
 
         if (error) {
 
-            console.error(error);
+            loginError.textContent =
+                'Ошибка входа: ' + error.message;
 
             return;
-
         }
 
 
-        const repairs = data || [];
+        await showApplication();
+
+    }
+);
 
 
-        const newCount =
-            repairs.filter(
-                r => r.status === 'NEW'
-            ).length;
+/* =====================================================
+   SHOW APPLICATION
+   ===================================================== */
+
+async function showApplication() {
+
+    loginScreen.style.display = 'none';
+
+    app.style.display = 'block';
 
 
-        const repairCount =
-            repairs.filter(
-                r => r.status === 'IN_REPAIR'
-            ).length;
+    await loadUser();
+
+    await loadRepairs();
+
+}
 
 
-        const overdueCount =
-            repairs.filter(
-                r => r.is_overdue === true
-            ).length;
+/* =====================================================
+   LOAD USER
+   ===================================================== */
+
+async function loadUser() {
+
+    const {
+        data: {
+            user
+        }
+    } =
+    await supabaseClient.auth.getUser();
 
 
-        const readyCount =
-            repairs.filter(
-                r => r.status === 'READY'
-            ).length;
+    if (!user) {
+
+        return;
+
+    }
 
 
-        document.getElementById(
-            'newCount'
-        ).textContent = newCount;
+    const {
+        data: profile,
+        error
+    } =
+    await supabaseClient
+        .from('profiles')
+        .select('full_name, role')
+        .eq('id', user.id)
+        .single();
 
 
-        document.getElementById(
-            'repairCount'
-        ).textContent = repairCount;
+    if (error) {
+
+        document.getElementById('userInfo').textContent =
+            user.email;
+
+        return;
+    }
 
 
-        document.getElementById(
-            'overdueCount'
-        ).textContent = overdueCount;
+    document.getElementById('userInfo').textContent =
+        (profile.full_name || user.email)
+        + ' • '
+        + profile.role;
+
+}
 
 
-        document.getElementById(
-            'readyCount'
-        ).textContent = readyCount;
+/* =====================================================
+   LOAD REPAIRS
+   ===================================================== */
+
+async function loadRepairs() {
+
+    const tableContainer =
+        document.getElementById('tableContainer');
 
 
-        renderRepairs(
-            repairs.filter(
-                r => r.status === 'NEW'
-            )
+    tableContainer.innerHTML =
+        '<div class="loading">Загрузка ремонтов...</div>';
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from('repair_overview')
+        .select('*')
+        .order(
+            'created_at',
+            {
+                ascending: false
+            }
         );
 
+
+    if (error) {
+
+        console.error(error);
+
+        tableContainer.innerHTML =
+            '<div class="empty">Ошибка загрузки: '
+            + escapeHtml(error.message)
+            + '</div>';
+
+        return;
     }
 
 
-    /* =========================================
-       TABLE
-    ========================================= */
-
-    function renderRepairs(repairs) {
-
-        const table =
-            document.getElementById(
-                'repairsTable'
-            );
+    allRepairs = data || [];
 
 
-        if (!repairs.length) {
+    updateCounters();
 
-            table.innerHTML = `
-                <tr>
-                    <td
-                        colspan="6"
-                        class="empty">
-                        Пока нет ремонтов
-                    </td>
-                </tr>
-            `;
+    renderCurrentTab();
 
-            return;
-
-        }
+}
 
 
-        table.innerHTML =
-            repairs.map(
-                repair => `
+/* =====================================================
+   COUNTERS
+   ===================================================== */
 
-                <tr>
+function updateCounters() {
 
-                    <td>
-                        ${String(
-                            repair.repair_number
-                        ).padStart(6, '0')}
-                    </td>
-
-                    <td>
-                        ${repair.client_name || ''}
-                    </td>
-
-                    <td>
-                        ${repair.equipment_name || ''}
-                    </td>
-
-                    <td>
-                        ${repair.brand || ''}
-                        ${repair.model || ''}
-                    </td>
-
-                    <td>
-                        ${repair.status}
-                    </td>
-
-                    <td>
-                        ${new Date(
-                            repair.created_at
-                        ).toLocaleDateString('ru-RU')}
-                    </td>
-
-                </tr>
-
-            `
-            ).join('');
-
-    }
+    const newCount =
+        allRepairs.filter(
+            repair =>
+                repair.status === 'NEW'
+        ).length;
 
 
-    /* =========================================
-       TABS
-    ========================================= */
+    const repairCount =
+        allRepairs.filter(
+            repair =>
+                repair.status === 'IN_REPAIR'
+        ).length;
 
-    document
-        .querySelectorAll('.tab')
-        .forEach(button => {
+
+    const overdueCount =
+        allRepairs.filter(
+            repair =>
+                repair.status === 'IN_REPAIR'
+                &&
+                repair.is_overdue === true
+        ).length;
+
+
+    const readyCount =
+        allRepairs.filter(
+            repair =>
+                repair.status === 'READY'
+        ).length;
+
+
+    document.getElementById(
+        'counterNew'
+    ).textContent = newCount;
+
+
+    document.getElementById(
+        'counterRepair'
+    ).textContent = repairCount;
+
+
+    document.getElementById(
+        'counterOverdue'
+    ).textContent = overdueCount;
+
+
+    document.getElementById(
+        'counterReady'
+    ).textContent = readyCount;
+
+}
+
+
+/* =====================================================
+   TABS
+   ===================================================== */
+
+document
+    .querySelectorAll('.tab')
+    .forEach(
+        button => {
 
             button.addEventListener(
                 'click',
-                async function() {
+                function() {
 
                     document
                         .querySelectorAll('.tab')
                         .forEach(
-                            b => b.classList.remove(
-                                'active'
-                            )
+                            b =>
+                                b.classList.remove('active')
                         );
 
 
-                    this.classList.add(
-                        'active'
-                    );
+                    this.classList.add('active');
 
 
-                    const status =
-                        this.dataset.status;
+                    currentTab =
+                        this.dataset.tab;
 
 
-                    const {
-                        data,
-                        error
-                    } =
-                        await supabaseClient
-                            .from('repair_overview')
-                            .select('*');
-
-
-                    if (error) {
-
-                        console.error(error);
-
-                        return;
-
-                    }
-
-
-                    let filtered = data || [];
-
-
-                    if (status === 'OVERDUE') {
-
-                        filtered =
-                            filtered.filter(
-                                r =>
-                                    r.is_overdue === true
-                            );
-
-                    }
-
-                    else if (status === 'ARCHIVE') {
-
-                        filtered =
-                            filtered.filter(
-                                r =>
-                                    r.status === 'ISSUED' ||
-                                    r.status === 'CANCELLED'
-                            );
-
-                    }
-
-                    else {
-
-                        filtered =
-                            filtered.filter(
-                                r =>
-                                    r.status === status
-                            );
-
-                    }
-
-
-                    renderRepairs(
-                        filtered
-                    );
+                    renderCurrentTab();
 
                 }
             );
 
-        });
+        }
+    );
 
 
-    /* =========================================
-       START
-    ========================================= */
+/* =====================================================
+   RENDER TAB
+   ===================================================== */
 
-    checkSession();
+function renderCurrentTab() {
+
+    let repairs = [];
+
+
+    if (currentTab === 'NEW') {
+
+        repairs =
+            allRepairs.filter(
+                repair =>
+                    repair.status === 'NEW'
+            );
+
+        document.getElementById(
+            'pageTitle'
+        ).textContent =
+            'Новые ремонты';
+
+    }
+
+
+    else if (currentTab === 'IN_REPAIR') {
+
+        repairs =
+            allRepairs.filter(
+                repair =>
+                    repair.status === 'IN_REPAIR'
+            );
+
+        document.getElementById(
+            'pageTitle'
+        ).textContent =
+            'Ремонты в работе';
+
+    }
+
+
+    else if (currentTab === 'OVERDUE') {
+
+        repairs =
+            allRepairs.filter(
+                repair =>
+                    repair.status === 'IN_REPAIR'
+                    &&
+                    repair.is_overdue === true
+            );
+
+        document.getElementById(
+            'pageTitle'
+        ).textContent =
+            'Просроченные ремонты';
+
+    }
+
+
+    else if (currentTab === 'READY') {
+
+        repairs =
+            allRepairs.filter(
+                repair =>
+                    repair.status === 'READY'
+            );
+
+        document.getElementById(
+            'pageTitle'
+        ).textContent =
+            'Готово к выдаче';
+
+    }
+
+
+    else if (currentTab === 'ARCHIVE') {
+
+        repairs =
+            allRepairs.filter(
+                repair =>
+                    repair.status === 'ISSUED'
+                    ||
+                    repair.status === 'CANCELLED'
+            );
+
+        document.getElementById(
+            'pageTitle'
+        ).textContent =
+            'Архив';
+
+    }
+
+
+    renderTable(repairs);
+
+}
+
+
+/* =====================================================
+   RENDER TABLE
+   ===================================================== */
+
+function renderTable(repairs) {
+
+    const container =
+        document.getElementById(
+            'tableContainer'
+        );
+
+
+    if (!repairs.length) {
+
+        container.innerHTML =
+            '<div class="empty">'
+            + 'Здесь пока нет ремонтов'
+            + '</div>';
+
+        return;
+    }
+
+
+    let html = '';
+
+
+    html += '<div class="table-wrapper">';
+
+    html += '<table>';
+
+    html += '<thead>';
+
+    html += '<tr>';
+
+    html += '<th>№ ремонта</th>';
+
+    html += '<th>Оборудование</th>';
+
+    html += '<th>Бренд</th>';
+
+    html += '<th>Модель</th>';
+
+    html += '<th>Серийный номер</th>';
+
+    html += '<th>Проблема клиента</th>';
+
+    html += '<th>Статус</th>';
+
+    html += '<th>Дата</th>';
+
+    html += '<th>Дней</th>';
+
+    html += '</tr>';
+
+    html += '</thead>';
+
+    html += '<tbody>';
+
+
+    repairs.forEach(
+        repair => {
+
+            const overdue =
+                repair.status === 'IN_REPAIR'
+                &&
+                repair.is_overdue === true;
+
+
+            html +=
+                '<tr class="'
+                + (
+                    overdue
+                    ? 'overdue-row'
+                    : ''
+                )
+                + '">';
+
+
+            html +=
+                '<td>'
+                + '<span class="repair-number">'
+                + escapeHtml(
+                    formatRepairNumber(
+                        repair.repair_number
+                    )
+                )
+                + '</span>'
+                + '</td>';
+
+
+            html +=
+                '<td>'
+                + escapeHtml(
+                    repair.equipment_name || '—'
+                )
+                + '</td>';
+
+
+            html +=
+                '<td>'
+                + escapeHtml(
+                    repair.brand || '—'
+                )
+                + '</td>';
+
+
+            html +=
+                '<td>'
+                + escapeHtml(
+                    repair.model || '—'
+                )
+                + '</td>';
+
+
+            html +=
+                '<td>'
+                + escapeHtml(
+                    repair.serial_number || '—'
+                )
+                + '</td>';
+
+
+            html +=
+                '<td>'
+                + escapeHtml(
+                    repair.customer_problem || '—'
+                )
+                + '</td>';
+
+
+            html +=
+                '<td>'
+                + getStatusHtml(
+                    repair.status,
+                    overdue
+                )
+                + '</td>';
+
+
+            html +=
+                '<td>'
+                + formatDate(
+                    repair.created_at
+                )
+                + '</td>';
+
+
+            html +=
+                '<td>'
+                + (
+                    repair.days_in_repair !== null
+                    &&
+                    repair.days_in_repair !== undefined
+                    ?
+                    escapeHtml(
+                        String(
+                            repair.days_in_repair
+                        )
+                    )
+                    :
+                    '—'
+                )
+                + '</td>';
+
+
+            html += '</tr>';
+
+        }
+    );
+
+
+    html += '</tbody>';
+
+    html += '</table>';
+
+    html += '</div>';
+
+
+    container.innerHTML = html;
+
+}
+
+
+/* =====================================================
+   STATUS
+   ===================================================== */
+
+function getStatusHtml(
+    status,
+    overdue
+) {
+
+    if (status === 'NEW') {
+
+        return `
+            <span class="status status-new">
+                НОВАЯ
+            </span>
+        `;
+
+    }
+
+
+    if (status === 'IN_REPAIR') {
+
+        if (overdue) {
+
+            return `
+                <span class="status status-repair">
+                    В РЕМОНТЕ
+                </span>
+                <br>
+                <span class="overdue-label">
+                    ПРОСРОЧЕНО
+                </span>
+            `;
+
+        }
+
+        return `
+            <span class="status status-repair">
+                В РЕМОНТЕ
+            </span>
+        `;
+
+    }
+
+
+    if (status === 'READY') {
+
+        return `
+            <span class="status status-ready">
+                ГОТОВО
+            </span>
+        `;
+
+    }
+
+
+    if (status === 'ISSUED') {
+
+        return `
+            <span class="status status-issued">
+                ВЫДАНО
+            </span>
+        `;
+
+    }
+
+
+    if (status === 'CANCELLED') {
+
+        return `
+            <span class="status status-cancelled">
+                ОТМЕНА
+            </span>
+        `;
+
+    }
+
+
+    return escapeHtml(
+        status || '—'
+    );
+
+}
+
+
+/* =====================================================
+   FORMAT REPAIR NUMBER
+   ===================================================== */
+
+function formatRepairNumber(number) {
+
+    if (
+        number === null
+        ||
+        number === undefined
+    ) {
+
+        return '—';
+
+    }
+
+
+    return String(number)
+        .padStart(6, '0');
+
+}
+
+
+/* =====================================================
+   FORMAT DATE
+   ===================================================== */
+
+function formatDate(date) {
+
+    if (!date) {
+
+        return '—';
+
+    }
+
+
+    const d =
+        new Date(date);
+
+
+    if (isNaN(d.getTime())) {
+
+        return '—';
+
+    }
+
+
+    return d.toLocaleDateString(
+        'ru-RU',
+        {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        }
+    );
+
+}
+
+
+/* =====================================================
+   HTML ESCAPE
+   ===================================================== */
+
+function escapeHtml(value) {
+
+    if (value === null || value === undefined) {
+
+        return '';
+
+    }
+
+
+    return String(value)
+        .replace(
+            /&/g,
+            '&amp;'
+        )
+        .replace(
+            /</g,
+            '&lt;'
+        )
+        .replace(
+            />/g,
+            '&gt;'
+        )
+        .replace(
+            /"/g,
+            '&quot;'
+        )
+        .replace(
+            /'/g,
+            '&#039;'
+        );
+
+}
+
+
+/* =====================================================
+   REFRESH
+   ===================================================== */
+
+document
+    .getElementById('refreshButton')
+    .addEventListener(
+        'click',
+        async function() {
+
+            await loadRepairs();
+
+        }
+    );
+
+
+/* =====================================================
+   LOGOUT
+   ===================================================== */
+
+document
+    .getElementById('logoutButton')
+    .addEventListener(
+        'click',
+        async function() {
+
+            await supabaseClient.auth.signOut();
+
+            app.style.display = 'none';
+
+            loginScreen.style.display = 'flex';
+
+            document.getElementById(
+                'email'
+            ).value = '';
+
+            document.getElementById(
+                'password'
+            ).value = '';
+
+        }
+    );
+
+
+/* =====================================================
+   CHECK SESSION ON START
+   ===================================================== */
+
+async function checkSession() {
+
+    const {
+        data: {
+            session
+        }
+    } =
+    await supabaseClient.auth.getSession();
+
+
+    if (session) {
+
+        await showApplication();
+
+    }
+
+}
+
+
+/* =====================================================
+   START
+   ===================================================== */
+
+checkSession();
 
 </script>
 
