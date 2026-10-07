@@ -119,17 +119,17 @@
             <form id="employeeForm">
                 <div class="form-section">
                     <h3>👤 Данные сотрудника</h3>
-                    <label for="employeeName">ФИО *</label>
-                    <input type="text" id="employeeName" placeholder="Например: Иван Иванов" required>
-                    <label for="employeeEmail">Email *</label>
-                    <input type="email" id="employeeEmail" placeholder="employee@example.com" required>
-                    <label for="employeePassword">Временный пароль *</label>
-                    <input type="password" id="employeePassword" minlength="6" placeholder="Минимум 6 символов" required>
-                    <label for="employeeRole">Уровень доступа *</label>
-                    <select id="employeeRole" required>
+                    <label for="employeeName">ФИО</label>
+                    <input type="text" id="employeeName" placeholder="Например: Иван Иванов">
+                    <label for="employeeEmail">Email</label>
+                    <input type="email" id="employeeEmail" placeholder="employee@example.com">
+                    <label for="employeePassword">Временный пароль</label>
+                    <input type="password" id="employeePassword" minlength="6" placeholder="Минимум 6 символов">
+                    <label for="employeeRole">Уровень доступа</label>
+                    <select id="employeeRole">
                         <option value="ADMIN">Администратор</option>
-                        <option value="REPAIRMAN">Ремонтник</option>
-                        <option value="RECEPTION">Ресепшн</option>
+                        <option value="master">Мастер</option>
+                        <option value="reception">Приёмщик</option>
                     </select>
                 </div>
                 <div class="form-actions">
@@ -160,13 +160,19 @@
 
                     <div class="form-row">
                         <div>
-                            <label for="clientName">ФИО клиента *</label>
-                            <input type="text" id="clientName" placeholder="Начните вводить ФИО..." list="clientsList" required>
+                            <label for="clientName">ФИО клиента</label>
+                            <input type="text" id="clientName" placeholder="Начните вводить ФИО..." list="clientsList">
                         </div>
 
                         <div>
-                            <label for="clientPhone">Телефон *</label>
-                            <input type="tel" id="clientPhone" placeholder="+375..." required>
+                            <label for="clientPhone">Телефон</label>
+                            <input type="tel" id="clientPhone" placeholder="+375...">
+                        </div>
+                    </div>
+
+                        <div>
+                            <label for="socialNetworks">Соц. сети</label>
+                            <input type="text" id="socialNetworks" placeholder="Telegram, Instagram, VK и т.д.">
                         </div>
                     </div>
 
@@ -177,8 +183,8 @@
 
                     <div class="form-row">
                         <div>
-                            <label for="equipmentName">Оборудование *</label>
-                            <input type="text" id="equipmentName" placeholder="Например: ноутбук" required>
+                            <label for="equipmentName">Оборудование</label>
+                            <input type="text" id="equipmentName" placeholder="Например: ноутбук">
                         </div>
 
                         <div>
@@ -203,8 +209,8 @@
                 <div class="form-section">
                     <h3>⚠️ Проблема</h3>
 
-                    <label for="customerProblem">Что сообщил клиент *</label>
-                    <textarea id="customerProblem" placeholder="Опишите проблему со слов клиента..." required></textarea>
+                    <label for="customerProblem">Что сообщил клиент</label>
+                    <textarea id="customerProblem" placeholder="Опишите проблему со слов клиента..."></textarea>
                 </div>
 
                 <div class="form-actions">
