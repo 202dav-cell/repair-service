@@ -54,25 +54,31 @@ function renderEmployees() {
     const container = document.getElementById('employeesTableContainer');
     const query = (employeeSearch.value || '').trim().toLowerCase();
 
-    const employees = allEmployees.filter(employee =>
-        (employee.full_name || '').toLowerCase().includes(query) ||
-        String(roleLabels[employee.role] || employee.role || '').toLowerCase().includes(query) ||
-        (employee.social_networks || '').toLowerCase().includes(query)
-    );
+    const employees = allEmployees.filter(employee => {
+        const searchable = [
+            employee.full_name,
+            employee.email,
+            employee.social_networks,
+            roleLabels[employee.role] || employee.role
+        ].filter(Boolean).join(' ').toLowerCase();
+
+        return searchable.includes(query);
+    });
 
     if (!employees.length) {
         container.innerHTML = '<div class="empty">Сотрудники не найдены</div>';
         return;
     }
 
-    let html = '<div class="table-wrapper"><table class="employees-table"><thead><tr>';
-    html += '<th>Сотрудник</th><th>Соц. сети</th><th>Уровень доступа</th></tr></thead><tbody>';
+    let html = '<div class="table-wrapper"><table class="employees-table employees-table-modern"><thead><tr>';
+    html += '<th>ФИО</th><th>Email</th><th>Соц. сети</th><th>Уровень доступа</th></tr></thead><tbody>';
 
     employees.forEach(employee => {
         const role = String(employee.role || '');
 
         html += '<tr class="employee-row" data-user-id="' + escapeHtml(employee.id) + '">';
         html += '<td><strong>' + escapeHtml(employee.full_name || 'Без имени') + '</strong></td>';
+        html += '<td class="employee-email">' + escapeHtml(employee.email || '—') + '</td>';
         html += '<td>' + escapeHtml(employee.social_networks || '—') + '</td>';
         html += '<td><span class="role-badge role-' + escapeHtml(role) + '">' +
             escapeHtml(roleLabels[role] || role || 'Не назначен') + '</span></td>';
@@ -81,6 +87,27 @@ function renderEmployees() {
 
     html += '</tbody></table></div>';
     container.innerHTML = html;
+
+    const table = container.querySelector('.employees-table-modern');
+    if (table) {
+        table.style.width = '100%';
+        table.style.tableLayout = 'fixed';
+        table.style.minWidth = '760px';
+
+        const widths = ['24%', '28%', '28%', '20%'];
+        table.querySelectorAll('thead th').forEach((th, index) => {
+            th.style.width = widths[index] || '';
+        });
+
+        table.querySelectorAll('tbody td').forEach(td => {
+            td.style.verticalAlign = 'middle';
+        });
+
+        table.querySelectorAll('.employee-email').forEach(td => {
+            td.style.wordBreak = 'break-word';
+            td.style.overflowWrap = 'anywhere';
+        });
+    }
 
     container.querySelectorAll('.employee-row').forEach(row => {
         row.style.cursor = 'pointer';
