@@ -78,6 +78,7 @@ async function getEmployeeDetails(userId) {
 async function createEmployeeAccount(
     fullName,
     email,
+    phone,
     password,
     role,
     socialNetworks
@@ -107,6 +108,7 @@ async function createEmployeeAccount(
                 body: JSON.stringify({
                     full_name: fullName,
                     email,
+                    phone,
                     password,
                     role,
                     social_networks: socialNetworks || ''
