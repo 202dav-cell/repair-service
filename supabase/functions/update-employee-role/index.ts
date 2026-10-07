@@ -42,11 +42,22 @@ Deno.serve(async (req) => {
 
     const body = await req.json();
     const userId = String(body.user_id || "");
-    const role = String(body.role || "").toUpperCase();
-    const allowedRoles = new Set(["ADMIN", "REPAIRMAN", "RECEPTION"]);
+    const requestedRole = String(body.role || "").trim();
+
+    const roleMap: Record<string, string> = {
+      ADMIN: "ADMIN",
+      admin: "ADMIN",
+      master: "master",
+      MASTER: "master",
+      repairman: "master",
+      REPAIRMAN: "master",
+      reception: "reception",
+      RECEPTION: "reception"
+    };
+    const role = roleMap[requestedRole] || "";
 
     if (!userId) return json({ error: "Не указан сотрудник." }, 400);
-    if (!allowedRoles.has(role)) return json({ error: "Недопустимый уровень доступа." }, 400);
+    if (!role) return json({ error: "Недопустимый уровень доступа." }, 400);
     if (userId === user.id && role !== "ADMIN") {
       return json({ error: "Нельзя снять права администратора с собственной учетной записи." }, 400);
     }
