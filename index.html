@@ -1511,7 +1511,285 @@
     /* =========================================
        START
     ========================================= */
+/* =========================================
+   NEW REPAIR
+========================================= */
 
+const newRepairButton =
+    document.getElementById('newRepairButton');
+
+const newRepairModal =
+    document.getElementById('newRepairModal');
+
+const closeRepairModal =
+    document.getElementById('closeRepairModal');
+
+const newRepairForm =
+    document.getElementById('newRepairForm');
+
+const repairMessage =
+    document.getElementById('repairMessage');
+
+
+newRepairButton.addEventListener(
+    'click',
+    function() {
+
+        newRepairModal.style.display = 'block';
+
+    }
+);
+
+
+closeRepairModal.addEventListener(
+    'click',
+    function() {
+
+        newRepairModal.style.display = 'none';
+
+    }
+);
+
+
+newRepairModal.addEventListener(
+    'click',
+    function(event) {
+
+        if (event.target === newRepairModal) {
+
+            newRepairModal.style.display = 'none';
+
+        }
+
+    }
+);
+
+
+newRepairForm.addEventListener(
+    'submit',
+    async function(event) {
+
+        event.preventDefault();
+
+        repairMessage.textContent = '';
+        repairMessage.style.color = '#dc2626';
+
+
+        const clientName =
+            document.getElementById(
+                'clientName'
+            ).value.trim();
+
+
+        const clientPhone =
+            document.getElementById(
+                'clientPhone'
+            ).value.trim();
+
+
+        const equipmentName =
+            document.getElementById(
+                'equipmentName'
+            ).value.trim();
+
+
+        const brand =
+            document.getElementById(
+                'brand'
+            ).value.trim();
+
+
+        const model =
+            document.getElementById(
+                'model'
+            ).value.trim();
+
+
+        const serialNumber =
+            document.getElementById(
+                'serialNumber'
+            ).value.trim();
+
+
+        const customerProblem =
+            document.getElementById(
+                'customerProblem'
+            ).value.trim();
+
+
+        try {
+
+            /* -------------------------
+               CURRENT USER
+            ------------------------- */
+
+            const {
+                data: sessionData
+            } =
+                await supabaseClient
+                    .auth
+                    .getSession();
+
+
+            if (!sessionData.session) {
+
+                repairMessage.textContent =
+                    'Сессия закончилась. Войдите снова.';
+
+                return;
+
+            }
+
+
+            const user =
+                sessionData.session.user;
+
+
+            /* -------------------------
+               CLIENT
+            ------------------------- */
+
+            const {
+                data: client,
+                error: clientError
+            } =
+                await supabaseClient
+                    .from('clients')
+                    .insert({
+
+                        full_name: clientName,
+                        phone: clientPhone
+
+                    })
+                    .select()
+                    .single();
+
+
+            if (clientError) {
+
+                throw clientError;
+
+            }
+
+
+            /* -------------------------
+               REPAIR
+            ------------------------- */
+
+            const {
+                data: repair,
+                error: repairError
+            } =
+                await supabaseClient
+                    .from('repair_requests')
+                    .insert({
+
+                        client_id: client.id,
+
+                        equipment_name:
+                            equipmentName,
+
+                        brand:
+                            brand || null,
+
+                        model:
+                            model || null,
+
+                        serial_number:
+                            serialNumber || null,
+
+                        customer_problem:
+                            customerProblem,
+
+                        status:
+                            'NEW',
+
+                        created_by:
+                            user.id
+
+                    })
+                    .select()
+                    .single();
+
+
+            if (repairError) {
+
+                throw repairError;
+
+            }
+
+
+            /* -------------------------
+               HISTORY
+            ------------------------- */
+
+            await supabaseClient
+                .from('repair_history')
+                .insert({
+
+                    repair_id:
+                        repair.id,
+
+                    user_id:
+                        user.id,
+
+                    action:
+                        'Создан ремонт',
+
+                    new_value:
+                        'NEW'
+
+                });
+
+
+            /* -------------------------
+               SUCCESS
+            ------------------------- */
+
+            repairMessage.style.color =
+                '#16a34a';
+
+            repairMessage.textContent =
+                'Ремонт №' +
+                String(
+                    repair.repair_number
+                ).padStart(6, '0') +
+                ' успешно создан';
+
+
+            newRepairForm.reset();
+
+
+            await loadDashboard();
+
+
+            setTimeout(
+                function() {
+
+                    newRepairModal.style.display =
+                        'none';
+
+                    repairMessage.textContent =
+                        '';
+
+                },
+                1500
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            repairMessage.textContent =
+                'Ошибка: ' +
+                error.message;
+
+        }
+
+    }
+);
     checkSession();
 
 </script>
