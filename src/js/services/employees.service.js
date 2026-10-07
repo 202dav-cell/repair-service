@@ -7,39 +7,13 @@ async function getEmployees() {
 }
 
 async function createEmployeeAccount(fullName, email, password, role) {
-    const { data: currentSessionData } = await supabaseClient.auth.getSession();
-    const adminSession = currentSessionData.session;
-
-    const { data, error } = await supabaseClient.auth.signUp({
-        email,
-        password,
-        options: { data: { full_name: fullName } }
+    return supabaseClient.functions.invoke('create-employee', {
+        body: { full_name: fullName, email, password, role }
     });
-
-    if (adminSession && data.session) {
-        await supabaseClient.auth.setSession({
-            access_token: adminSession.access_token,
-            refresh_token: adminSession.refresh_token
-        });
-    }
-
-    if (error) return { data, error };
-    if (!data.user) return { data, error: new Error('Supabase не вернул созданного пользователя.') };
-
-    const profileResult = await supabaseClient
-        .from('profiles')
-        .upsert({ id: data.user.id, full_name: fullName, role }, { onConflict: 'id' })
-        .select('id, full_name, role')
-        .single();
-
-    return { data: { ...data, profile: profileResult.data }, error: profileResult.error };
 }
 
 async function updateEmployeeRole(userId, role) {
-    return supabaseClient
-        .from('profiles')
-        .update({ role })
-        .eq('id', userId)
-        .select('id, full_name, role')
-        .single();
+    return supabaseClient.functions.invoke('update-employee-role', {
+        body: { user_id: userId, role }
+    });
 }
